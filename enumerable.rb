@@ -1,20 +1,20 @@
 module Enumerable
 	def my_each
-		return self unless block_given?
+		return self.to_enum unless block_given?
 		for i in self
 			yield i
 		end
 	end
 	
 	def my_each_with_index
-		return self unless block_given?
+		return self.to_enum unless block_given?
 		for i in self
 			yield i, self.index(i)
 		end
 	end
 	
 	def my_select
-		return self unless block_given?
+		return self.to_enum unless block_given?
 		arr = []
 		self.my_each{|x| arr << x if yield x}
 		arr
@@ -67,8 +67,36 @@ module Enumerable
 		count	
 	end
 	
+	def my_map
+		return self.to_enum unless block_given?
+		arr = []
+		self.my_each{|x| arr << yield(x)}
+		arr
+	end
+	
+	def my_inject(*args)
+		return self.to_enum unless block_given?
+		arr = self.to_a		
+		
+		if args[0]
+			acc = args[0]
+			start = 0
+		else
+			acc = arr[0] 
+			start = 1
+		end 
+		
+		for i in arr[start..-1]
+			acc = yield(acc,i) 
+		end
+		acc
+	end	
+	
+	
 end
-ary = [1, 2, 4, 2]
-puts ary.my_count               
-puts ary.my_count(2)            
-puts ary.my_count{ |x| x%2==0 }
+
+def multiply_els(arr)
+	arr.my_inject{|total,x| total * x}
+end
+
+puts multiply_els([2,4,5])
