@@ -74,6 +74,12 @@ module Enumerable
 		arr
 	end
 	
+	def my_map_proc(proc)
+		arr = []
+		self.my_each{|x| arr << proc.call(x) }
+		arr
+	end
+	
 	def my_inject(*args)
 		return self.to_enum unless block_given?
 		arr = self.to_a		
@@ -95,8 +101,6 @@ module Enumerable
 	
 end
 
-def multiply_els(arr)
-	arr.my_inject{|total,x| total * x}
-end
+test = Proc.new { |x| x*2 }
 
-puts multiply_els([2,4,5])
+puts [1,2,3].my_map_proc test
