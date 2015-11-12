@@ -80,6 +80,18 @@ module Enumerable
 		arr
 	end
 	
+	def my_map_proc_or_block(proc = nil)
+		arr = []
+		self.my_each{|x| arr << proc.call(x) } if proc 
+		
+		if proc && block_given?
+			arr2 = []
+			arr.my_each_with_index {|x,y| arr2[y] = yield(x)} 
+		end
+		arr2 || arr
+	end	
+	
+	
 	def my_inject(*args)
 		return self.to_enum unless block_given?
 		arr = self.to_a		
@@ -103,4 +115,6 @@ end
 
 test = Proc.new { |x| x*2 }
 
-puts [1,2,3].my_map_proc test
+#[1,2,3].my_each_with_index { |x,y| puts [x,y].inspect }
+
+puts [1,2,3,4,5].my_map_proc_or_block(test) { |x| x*2 }
