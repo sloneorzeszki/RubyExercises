@@ -101,7 +101,7 @@ class Board
     game_solved = false
     found_dash = false
 	
-	  catch :game_over do
+    catch :game_over do
       #solved horizontally
       @board.each do |x| 
         if x.all?{|y| y == "X"} || x.all?{|y| y == "O"}
@@ -144,7 +144,7 @@ class Board
         end
         found_dash
       end
-	  end
+    end
 	  
     if game_solved
       puts "PLAYER #{player.name.upcase} WON!!!" 
