@@ -28,7 +28,6 @@ class TicTacToe
     board.display
     board.solved?(player)
   end
-
   
   def run
     @board.display
@@ -37,7 +36,6 @@ class TicTacToe
       sequence(@player2)
     end
   end
-  
 end
 
 
@@ -70,18 +68,17 @@ class Player
     end
     val
   end
-  
 end
 
 class Board
   attr_accessor :board
   
   def initialize
-	@board = [ 
-		["_","_","_"],
-		["_","_","_"],
-		["_","_","_"]
-		]
+    @board = [ 
+            ["_","_","_"],
+            ["_","_","_"],
+            ["_","_","_"]
+            ]
   end
   
   def mark_move(player_choice, player)
@@ -100,7 +97,6 @@ class Board
       @board.each{|x| puts x.join(" | ") }
   end
   
-
   def solved?(player)
     game_solved = false
     found_dash = false
