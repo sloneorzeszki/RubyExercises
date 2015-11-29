@@ -1,8 +1,8 @@
 module Helpers
   def ask_for_names
-	  puts "Enter the name of the first player:"
-	  player1_name = gets.chomp
-	  puts "Enter the name of the second player:"
+    puts "Enter the name of the first player:"
+    player1_name = gets.chomp
+    puts "Enter the name of the second player:"
     player2_name = gets.chomp
     names = [player1_name, player2_name]
     return names
