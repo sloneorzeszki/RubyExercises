@@ -16,10 +16,10 @@ class TicTacToe
   attr_accessor :player1, :player2, :board
 
   def initialize
-  	names = ask_for_names
-	  @player1 = Player.new(names[0], "X")
-	  @player2 = Player.new(names[1], "O")
-	  @board = Board.new
+    names = ask_for_names
+    @player1 = Player.new(names[0], "X")
+    @player2 = Player.new(names[1], "O")
+    @board = Board.new
   end
   
   def sequence(player)
