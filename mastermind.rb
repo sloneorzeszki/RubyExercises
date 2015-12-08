@@ -1,9 +1,10 @@
 class Game
-  attr_accessor :maker, :breaker
+  attr_accessor :maker, :breaker, :tries
 
   def initialize
     @maker = Codemaker.new
     @breaker = Codebreaker.new
+    @tries = 1
     puts "There are four colors being randomly selected next to each other.",
     "You goal is to guess what colors were drawn in what order. You have 10 tries.",
     "Possible colors are yellow, red, green, cyan, blue, magenta.",  
@@ -15,7 +16,6 @@ end
 class Codemaker
   def initialize
     @secret_pattern = []
-    @tries = 0
   end
   
   def generate_secret_pattern
@@ -47,7 +47,15 @@ class Codemaker
       puts "YOU WON OH MY GOD OH-MY-GOD!!!"
       exit
     elsif
-      puts "Feedback: " + feedback.count("red").to_s + "x red and " + feedback.count("white").to_s + "x white. Try again:"
+      if @tries == 10 
+        puts "There are no tries left. GAME OVER."
+        exit
+      elsif
+        puts "Feedback: " + feedback.count("red").to_s + "x red and "\
+              + feedback.count("white").to_s + "x white. You have #{10 - @tries} tries left."
+               "Try again:"
+        @tries += 1
+      end
     end
   end
 end
@@ -59,12 +67,10 @@ class Codebreaker
   end
 end
 
-tries = 0
 game = Game.new
 game.maker.generate_secret_pattern
 
-while tries < 10
+loop do
   guess = game.breaker.make_a_guess
   game.maker.compare_patterns(guess)
-  tries =+ 1
 end
