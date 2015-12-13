@@ -6,6 +6,7 @@ class Game
     @breaker = Codebreaker.new
   end
 
+  #selection of a role: breaker or maker of the pattern
   def start_game
     puts "Please select if you want to be a code [b]reaker or [m]aker:"
     decision = gets.chomp
@@ -22,7 +23,7 @@ class Game
   def maker_routine
     puts "You are a code breaker, the computer will try to guess your pattern.",
     "Possible colors are yellow, red, green, cyan, blue, magenta.",  
-    "Please enter you combination of four colors with one blank space between each color:"
+    "Please enter your combination of four colors with one blank space between each color:"
     @maker.select_secret_pattern
     loop do
       input = @breaker.computer_guess
@@ -33,12 +34,12 @@ class Game
 
   def breaker_routine
     puts "There are four colors being randomly selected next to each other.",
-    "You goal is to input what colors were drawn in what order. You have 10 tries.",
+    "You goal is to guess what colors were drawn in what order. You have 10 tries.",
     "Possible colors are yellow, red, green, cyan, blue, magenta.",  
     "Please enter your combination with one blank space between each color:"
     @maker.generate_secret_pattern
     loop do
-      input = @breaker.make_an_input
+      input = @breaker.human_guess
       @maker.compare_patterns(input)
     end
   end
@@ -50,12 +51,12 @@ class Codemaker
     @tries = 1
   end
 
-  def generate_secret_pattern
+  def generate_secret_pattern #by computer
     colors = ["yellow","red","green", "cyan", "blue", "magenta"]  
     @secret_pattern = [colors[rand(6)],colors[rand(6)],colors[rand(6)],colors[rand(6)]]
   end
 
-  def select_secret_pattern
+  def select_secret_pattern #by human
      @secret_pattern = gets.chomp.split()
   end
 
@@ -63,6 +64,7 @@ class Codemaker
     feedback = []
     temp_pattern = @secret_pattern.dup
 
+    #check for the position AND color match, gives out "red" flag
     for i in 0..input_pattern.size - 1
       if input_pattern[i] == temp_pattern[i]
         feedback << "red"
@@ -74,6 +76,7 @@ class Codemaker
       end
     end
 
+    #check for the color match only, gives out "white" flag
     for i in 0..input_pattern.size - 1
       if input_pattern[i] != nil && temp_pattern.any? {|x| x == input_pattern[i]}
         feedback << "white"
@@ -81,7 +84,8 @@ class Codemaker
         input_pattern[i] = nil
       end
     end
-    
+   
+   #game status check after each round + return feedback if game not ended
     if feedback.count("red") == 4
       puts "YOU WON OH MY GOD OH-MY-GOD!!!"
       exit
@@ -105,10 +109,10 @@ class Codebreaker
   attr_accessor :guessed
 
   def initialize
-    @guessed = {}
+    @guessed = {} #for computer player only, stores the "red" flags info
   end
 
-  def make_an_input
+  def human_guess
     input_pattern = gets.chomp.split()
   end
 
