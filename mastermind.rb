@@ -26,8 +26,8 @@ class Game
     @maker.select_secret_pattern
     loop do
       input = @breaker.computer_guess
-      p input.join(' ')
-      @maker.compare_patterns(input)
+      puts "Computer guess:" + input.join(' ')
+      @breaker.guessed = @maker.compare_patterns(input,:computer,@breaker.guessed)
     end
   end
 
@@ -59,13 +59,16 @@ class Codemaker
      @secret_pattern = gets.chomp.split()
   end
 
-  def compare_patterns(input_pattern)
+  def compare_patterns(input_pattern,role=:human,guessed={})
     feedback = []
     temp_pattern = @secret_pattern.dup
 
     for i in 0..input_pattern.size - 1
       if input_pattern[i] == temp_pattern[i]
         feedback << "red"
+        if role==:computer
+          guessed[i] = input_pattern[i]
+        end
         input_pattern[i] = nil
         temp_pattern[i] = nil
       end
@@ -87,24 +90,39 @@ class Codemaker
         puts "There are no tries left. GAME OVER."
         exit
       else
-        p "Feedback: " + feedback.count("red").to_s + "x red and "\
+        puts "Feedback: " + feedback.count("red").to_s + "x red and "\
           + feedback.count("white").to_s + "x white. You have #{10 - @tries} tries left. "\
           "Try again:"
         @tries += 1
       end
     end
+    guessed
   end
 end
 
 
 class Codebreaker
+  attr_accessor :guessed
+
+  def initialize
+    @guessed = {}
+  end
+
   def make_an_input
     input_pattern = gets.chomp.split()
   end
 
   def computer_guess
+    guess = []
     colors = ["yellow","red","green", "cyan", "blue", "magenta"]  
-    guess = [colors[rand(6)],colors[rand(6)],colors[rand(6)],colors[rand(6)]]
+      for i in 0..3
+        if @guessed.keys.any? {|x| x == i}
+          guess[i] = @guessed[i]
+        else
+          guess[i] = colors[rand(6)] 
+        end
+      end
+    guess
   end
 end
 
