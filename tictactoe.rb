@@ -9,10 +9,9 @@ module Helpers
   end
 end
 
-
 class TicTacToe
   include Helpers
-  
+ 
   attr_accessor :player1, :player2, :board
 
   def initialize
@@ -125,7 +124,8 @@ class Board
       #solved diagonally
       middle = @board[1][1]
       if middle == "X" || middle == "O"
-        if (@board[0][0] == middle && @board[2][2] == middle) || (@board[0][2] == middle && @board[2][0] == middle) 
+        if (@board[0][0] == middle && @board[2][2] == middle) ||
+           (@board[0][2] == middle && @board[2][0] == middle) 
           game_solved = true
         end
       end
