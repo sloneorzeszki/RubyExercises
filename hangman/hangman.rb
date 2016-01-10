@@ -71,7 +71,6 @@ class Game
       update_counter(replaced)
       check_result
       display_counter
-      
     end
   end
 
