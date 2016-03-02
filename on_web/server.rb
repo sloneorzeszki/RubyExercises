@@ -1,3 +1,4 @@
+require 'json'
 require 'socket'
 
 server = TCPServer.open(2000)
@@ -5,8 +6,9 @@ server = TCPServer.open(2000)
 loop {
 	client = server.accept
 	request = client.gets
-	
-	unless /\index.html/.match(request).nil?
+	request_type = request.split[0]
+	if request_type == "GET"
+	  unless /\index.html/.match(request).nil?
 		index_contents = File.read('index.html') 
 		client.puts "HTTP/1.0 200 OK"
 		client.puts "Date: " + Time.now.ctime
