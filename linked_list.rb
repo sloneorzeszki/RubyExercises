@@ -42,7 +42,7 @@ class LinkedList
 	def to_s
 		current = @head.next_node
 		print @head.value
-		while !current.nil? do
+		until current.nil? do
 			print  " >> " + current.value.to_s 
 			current = current.next_node
 		end
@@ -52,7 +52,7 @@ class LinkedList
 	def size
 		current = @head
 		counter = 0
-		while !current.nil? do
+		until current.nil? do
 			counter += 1
 			current = current.next_node
 		end
@@ -76,7 +76,7 @@ class LinkedList
 
 	def contains?(value)
 		current = @head
-		while !current.nil? do
+		until current.nil? do
 			if current.value == value
 				return true
 			else
@@ -95,7 +95,7 @@ class LinkedList
 	def find(data)
 		current = @head
 		counter = 0
-		while !current.nil? do
+		until current.nil? do
 			if current.value == data
 				return counter
 			else
