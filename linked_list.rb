@@ -15,15 +15,15 @@ class LinkedList
 	end
 
 	def append(value)
-		appendedNode = Node.new(value)
-		@tail.next_node = appendedNode
-		@tail = appendedNode
+		appended_node = Node.new(value)
+		@tail.next_node = appended_node
+		@tail = appended_node
 	end
 
 	def prepend(value)
-		prependedNode = Node.new(value)
-		prependedNode.next_node = @head
-		@head = prependedNode
+		prepended_node = Node.new(value)
+		prepended_node.next_node = @head
+		@head = prepended_node
 	end
 
 	def test
@@ -125,6 +125,5 @@ newList.to_s
 puts newList.pop
 newList.to_s
 puts newList.contains?(5)
-
 puts newList.find(546)
 
