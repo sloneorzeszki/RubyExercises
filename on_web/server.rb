@@ -4,11 +4,15 @@ require 'socket'
 server = TCPServer.open(2000)
 
 class Server
+	def initialize
+		@request_type = nil
+	end
+
 	def accept_connection
 		client = server.accept
 	end
 
-	def check_request_type
+	def fetch_request_type
 		request = client.read_nonblock(256)
 		request_type = request.split[0]
 	end
@@ -41,9 +45,15 @@ class Server
 		client.close
 	end
 
-	if request_type == "GET"
-	elsif request_type == "POST"
-	else
-		puts "I don't know that request"
+	def check_request_type(request_type)
+		if request_type == "GET"
+		elsif request_type == "POST"
+		else
+			puts "I don't know that request"
+		end
 	end
+
 end
+
+serv = Server.new
+serv.accept_connection
