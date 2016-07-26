@@ -11,7 +11,6 @@ class Browser
 
 	def make_connection
 		request = ask_for_action
-		viking_hash = request.slice(request.index("\r\n\r\n")+4..-1) #cut out the hash
 		socket = TCPSocket.open(@host, @port)
 		socket.puts(request)
 		response = socket.read

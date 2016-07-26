@@ -3,15 +3,17 @@ require 'socket'
 
 server = TCPServer.open(2000)
 
-loop {
-	client = server.accept
-	request = IO.readline(client.gets)
-	puts request
-	viking_hash = request.slice(request.index("\r\n\r\n")+4..-1) #cut out the hash
-	client.puts request.size
-	request_type = request.split[0]
-  puts request_type
-	if request_type == "GET"
+class Server
+	def accept_connection
+		client = server.accept
+	end
+
+	def check_request_type
+		request = client.read_nonblock(256)
+		request_type = request.split[0]
+	end
+
+	def get_request
 		unless /\index.html/.match(request).nil?
 			index_contents = File.read('index.html')
 			client.puts "HTTP/1.0 200 OK"
@@ -23,16 +25,25 @@ loop {
 		else
 			client.puts "HTTP/1.0 404 Not Found"
 		end
-	elsif request_type == "POST"
-		new_user = /{.*}/.match(request)
+	end
+
+	def post_request
 		params = {}
-		params = JSON.parse(new_user)
-		body = File.read('thanks.html')
-		body["<%= yield %>"] = params
-		client.puts body
+		x = /{.*}/.match(request).to_s
+		params = JSON.parse(x)
+		puts params['viking']['name']
+	#	body = File.read('thanks.html')
+	#	body["<%= yield %>"] = params
+	#	client.puts body
+	end
+
+	def close_connection
+		client.close
+	end
+
+	if request_type == "GET"
+	elsif request_type == "POST"
 	else
 		puts "I don't know that request"
 	end
-
-	client.close
-}
+end
