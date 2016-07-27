@@ -1,8 +1,6 @@
 require 'json'
 require 'socket'
 
-
-
 class Server
 	def initialize
 		@request_type = nil
@@ -31,8 +29,8 @@ class Server
 	end
 
 	#action to perform if GET request arrived - display index.html website 
-	def get_request
-		unless /\index.html/.match(request).nil?
+	def get_request(request)
+		unless /index.html/.match(request).nil?
 			index_contents = File.read('index.html')
 			@client.puts "HTTP/1.0 200 OK"
 			@client.puts "Date: " + Time.now.ctime
@@ -40,8 +38,10 @@ class Server
 			@client.puts "Size: " + index_contents.size.to_s
 			@client.puts
 			@client.puts index_contents
+			self.close_connection
 		else
 			@client.puts "HTTP/1.0 404 Not Found"
+			self.close_connection
 		end
 	end
 
@@ -50,14 +50,14 @@ class Server
 		fetched_hash = /{.*}/.match(request).to_s
 		params = {}
 		params = JSON.parse(fetched_hash)
-		puts params['viking']['name']
 		body = File.read('thanks.html')
-		body["<%= yield %>"] = params
+		body["<%= yield %>"] = "<li>Viking name: " + params["viking"]["name"] + "</li><li>Viking email: " + params["viking"]["email"] + "</li>"
 		@client.puts body
+		self.close_connection
 	end
 
 	def close_connection
-		client.close
+		@client.close
 	end
 end
 
