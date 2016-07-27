@@ -10,11 +10,13 @@ class Browser
 	end
 
 	def make_connection
-		request = ask_for_action
-		socket = TCPSocket.open(@host, @port)
-		socket.puts(request)
-		response = socket.read
-		puts response
+		loop do
+			request = ask_for_action
+			socket = TCPSocket.open(@host, @port)
+			socket.puts(request)
+			response = socket.read
+			puts response
+		end
 	end
 
 	def ask_for_action
