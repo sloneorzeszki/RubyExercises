@@ -31,16 +31,14 @@ class Tree
 	 		if new_node_val <= @current_node.val 
 	 			@current_node = @current_node.child_left
 	 			if @current_node.nil?
-		 			nowy = Node.new(new_node_val,@parent,nil,nil)
-		 			@parent.child_left = nowy
-	 				break
+		 			@parent.child_left = Node.new(new_node_val,@parent,nil,nil)
+		 			break
 	 			end
 	 		else
 	 			@current_node = @current_node.child_right
 	 			if @current_node.nil?
-		 			nowy = Node.new(new_node_val,@parent,nil,nil)
-		 			@parent.child_right = nowy
-	 				break
+		 			@parent.child_right = Node.new(new_node_val,@parent,nil,nil)
+		 			break
 	 			end
 	 		end
 	 	end
@@ -57,7 +55,32 @@ class Tree
 			end
 		end
 	end
+
+	def breadth_first_search(target)
+		queue = []
+		@current_node = @start
+		while 
+			if @current_node == target
+				puts @current_node.val
+				break
+			else
+				if  !@current_node.child_left.nil? 
+					queue << @current_node.child_left
+				end
+				if  !@current_node.child_right.nil? 
+					queue << @current_node.child_right
+				end
+				@current_node = queue[0]
+			end 
+					end
+		
+	end
+
+	def depth_first_seach
+
+	end
 end
 
 drzewo = Tree.new([23, 1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 drzewo.display
+drzewo.breadth_first_search(8)
