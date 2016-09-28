@@ -83,8 +83,39 @@ class Tree
 		end
 	end
 
-	def depth_first_seach
+	def depth_first_search
+		stack = []
+		stack << @start
 
+		loop do 
+			if stack[0].nil? then break else @current_node = stack[0] end
+
+			if @current_node.val == target
+					puts "rowna sie"
+					break
+			else
+				puts @current_node.val
+				puts "nie rowna sie"
+
+				while 
+
+
+				if  @current_node.child_left.nil? 
+					if  @current_node.child_right.nil? 
+						stack.pop
+					else
+						check left/right
+					end
+					@current_node = @current_node.child_right
+					
+				end
+
+				
+				 #queue.each {|x| print x.val.to_s + " "}
+				 #puts ""
+				queue.shift
+			end 
+		end
 	end
 end
 
