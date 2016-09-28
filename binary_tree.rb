@@ -83,42 +83,34 @@ class Tree
 		end
 	end
 
-	def depth_first_search
-		stack = []
-		stack << @start
+	def depth_first_search(target)
+		stack = [@start]
+		visited = [@start]
 
-		loop do 
-			if stack[0].nil? then break else @current_node = stack[0] end
+		until stack.empty?
+			stack.each {|x| print x.val.to_s + " "}
+			puts ""
+			
+			@current_node = stack.last
 
-			if @current_node.val == target
-					puts "rowna sie"
-					break
+			return @current_node if @current_node.val == target
+
+			if @current_node.child_left && !visited.include?(@current_node.child_left)
+				stack << @current_node.child_left 
+				visited << @current_node.child_left 
+			elsif @current_node.child_right && !visited.include?(@current_node.child_right)
+				stack << @current_node.child_right
+				visited << @current_node.child_right
 			else
-				puts @current_node.val
-				puts "nie rowna sie"
-
-				while 
-
-
-				if  @current_node.child_left.nil? 
-					if  @current_node.child_right.nil? 
-						stack.pop
-					else
-						check left/right
-					end
-					@current_node = @current_node.child_right
-					
-				end
-
+				stack.pop
+			end
 				
-				 #queue.each {|x| print x.val.to_s + " "}
-				 #puts ""
-				queue.shift
-			end 
+
 		end
 	end
 end
 
 drzewo = Tree.new([14, 1, 7, 4, 8, 9, 4,25,29,13,17])
 #drzewo.display
-drzewo.breadth_first_search(13)
+#drzewo.breadth_first_search(13)
+drzewo.depth_first_search(29)
