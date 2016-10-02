@@ -17,7 +17,6 @@ class Knight
 		process
 	end
 
-
 	#generate all possible moves from the current position (in a form of child nodes for the current node)
 	def possible_moves(root)
 		@current_node = root
@@ -44,9 +43,12 @@ class Knight
 	def check_for_solution(current_node, target_square)
 
 		loop do 
-			@i+=1
-			if @queue_nodes_temp[0].nil? then break else @current_node = @queue_nodes_temp[0] end
+			#@i+=1
 
+			#loop until the temporary queue is empty (at this point these nodes are already added to @queue_nodes)
+			if @queue_nodes_temp.empty? then break else @current_node = @queue_nodes_temp[0] end
+
+			#check if any of the recently created nodes has the target value, if not - exit to 'process' and create children for them, if yes - print the path
 			if @current_node.val == target_square
 				final_path = []
 				until @current_node.nil?
@@ -63,10 +65,9 @@ class Knight
 		end
 	end
 
-	#steps 
 	def process
-		@i=0
-		@queue_nodes << @start
+		#@i=0
+		@queue_nodes = [@start]
 
 		while
 			#p "runda kolejna"
@@ -78,4 +79,4 @@ class Knight
 	end
 end
 
-game = Knight.new([4,4],[0,7])
+checking = Knight.new([0,4],[7,7])
