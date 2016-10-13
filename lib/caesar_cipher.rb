@@ -22,7 +22,5 @@ def caesar_cipher(str, shift)
     arr_new.push(new_letter.chr)
   end
 
-  puts arr_new.join
+  arr_new.join
 end
-
-caesar_cipher("What a string!", 5)
