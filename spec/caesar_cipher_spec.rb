@@ -1,6 +1,7 @@
 require './lib/enumerable'
 
 describe Enumerable do
+	
 	it 'wraps alphabet' do
 		expect(caesar_cipher('z',1)).to eq('a')
 	end
@@ -18,6 +19,5 @@ describe Enumerable do
 	end
 
 	it 'accepts shift equal to zero' do
-		expect(caesar_cipher('Zz  Aa',0)).to eq('Zz  Aa')		
-	end 
+		expect(caesar_cipher('Zz  Aa',0)).to eq('Z
 end

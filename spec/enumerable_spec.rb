@@ -58,5 +58,4 @@ describe Enumerable do
 		expect(arr.my_inject(5) {|acc, x| acc + x }).to eq(19)
 	end
   end
-
 end
