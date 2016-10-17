@@ -1,23 +1,24 @@
-require 'caesar_cipher'
+require './lib/enumerable'
 
+describe Enumerable do
+	
+	it 'wraps alphabet' do
+		expect(caesar_cipher('z',1)).to eq('a')
+	end
 
-describe "caesar_cipher" do
-	it 'makes a round of z to a' do
-		expect(caesar_cipher('z',1)).to eql('a')
+	it 'keeps the uppercase and lowercase' do
+		expect(caesar_cipher('ZzAa',1)).to eq('AaBb')		
 	end
-	
-	it 'keeps the uppercase' do
+
+	it 'keeps special characters (hash, dollar etc)' do
+		expect(caesar_cipher('$%^&',1)).to eq('$%^&')		
 	end
-	
-	it 'keeps the lowercase' do
+
+	it 'accepts shift bigger than number of letters in alphabet' do
+		expect(caesar_cipher('ZzAa',27)).to eq('AaBb')		
 	end
-	
-	it 'lets you enter number bigger than amount of letters in alphabet' do
-	end
-	
-	it 'lets you enter special signs like hash, dollar and space' do
-	end
-	
-	it 'returns "What a string!"' do 
-	end
+
+	it 'accepts shift equal to zero' do
+		expect(caesar_cipher('Zz  Aa',0)).to eq('Zz  Aa')		
+	end 
 end
