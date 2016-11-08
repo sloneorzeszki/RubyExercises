@@ -1,2 +1,22 @@
+<<<<<<< HEAD
 --color
 --format progress
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+--color
+--require rails_helper
+=======
+--color
+--format progress
+>>>>>>> 0980ad49fa45401d910ea52c693d33d035cc501f
+=======
+--color
+--format progress
+>>>>>>> 0980ad49fa45401d910ea52c693d33d035cc501f
+=======
+--color
+--format progress
+>>>>>>> 0980ad49fa45401d910ea52c693d33d035cc501f
+>>>>>>> ab2c9379e36c1ef7876560a35cebe492ffd2083d

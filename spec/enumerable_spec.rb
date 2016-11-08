@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 require './lib/enumerable'
+=======
+require '../lib/enumerable.rb'
+>>>>>>> ab2c9379e36c1ef7876560a35cebe492ffd2083d
 
 describe Enumerable do 
   let(:arr) {[5,6,3]}
@@ -36,6 +40,7 @@ describe Enumerable do
   end
 
   context '#my_all?' do
+<<<<<<< HEAD
   end
 
   context '#my_any?' do
@@ -48,4 +53,28 @@ describe Enumerable do
   end
 
 
+=======
+	it "returns false when not all elements meet condition" do
+		expect(arr.my_all? { |x| x > 4 }).to be false
+	end
+  end
+
+  context '#my_any?' do
+	it "returns true when any of the elements meets the condition" do
+		expect(arr.my_any? { |x| x > 4 }).to be true
+	end
+  end
+
+  context '#my_map?' do
+	it "returns a modified array" do
+		expect(arr.my_map { |x| x * 7 }).to eq([35,42,21])
+	end
+  end
+
+  context '#my_inject?' do
+	it "returns a sum of multiple numbers with a customed value of accumulator" do
+		expect(arr.my_inject(5) {|acc, x| acc + x }).to eq(19)
+	end
+  end
+>>>>>>> ab2c9379e36c1ef7876560a35cebe492ffd2083d
 end
