@@ -1,10 +1,8 @@
 def substrings(str, arr)
-  results = Hash.new
+  results = {}
   arr.each do |word|
     count = str.downcase.scan(/#{word.downcase}/).size
-    if count > 0
-      results[word] = count
-    end
+    results[word] = count if count > 0
   end
   puts results
 end

@@ -3,8 +3,8 @@ def bubble_sort(arr)
   while changed
     changed = false
     for i in 0..arr.size-2
-      if arr[i]>arr[i+1]
-        arr[i],arr[i+1] = arr[i+1],arr[i] 
+      if arr[i] > arr[i+1]
+        arr[i], arr[i+1] = arr[i+1], arr[i] 
         changed = true
       end
     end
@@ -20,8 +20,8 @@ def bubble_sort_by(arr)
   while changed
     changed = false
     for i in 0..arr.size-2
-      if yield(arr[i],arr[i+1]) > 0
-        arr[i],arr[i+1] = arr[i+1],arr[i] 
+      if yield(arr[i], arr[i+1]) > 0
+        arr[i], arr[i+1] = arr[i+1], arr[i] 
         changed = true
       end
     end
