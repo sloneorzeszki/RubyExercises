@@ -1,0 +1,1 @@
+linked list structure - ruby implementation + a few additional methods

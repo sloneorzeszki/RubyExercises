@@ -1,0 +1,1 @@
+event manager - generating letters (erb) to all event members with a list of legislators in their area. list of legislators downloaded using Sunlight Congressional API.

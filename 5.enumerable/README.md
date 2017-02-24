@@ -1,0 +1,1 @@
+enumerable - simulation of Ruby Enumerable module

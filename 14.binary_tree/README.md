@@ -1,0 +1,1 @@
+building a binary tree based on provided array  + breadth first search/depth first search
