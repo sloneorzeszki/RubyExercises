@@ -1,0 +1,1 @@
+ruby version of Connect Four game. main purpose of this project is to practice rspec.

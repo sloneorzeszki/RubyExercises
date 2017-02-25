@@ -113,8 +113,6 @@ module Enumerable
   
 end
 
-test = Proc.new { |x| x*2 }
-
+#test = Proc.new { |x| x*2 }
 #[1,2,3].my_each_with_index { |x,y| puts [x,y].inspect }
-
-puts [1,2,3,4,5].my_map_proc_or_block(test) { |x| x*2 }
+#puts [1,2,3,4,5].my_map_proc_or_block(test) { |x| x*2 }

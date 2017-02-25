@@ -1,13 +1,13 @@
 def caesar_cipher(str, shift)
-  new_shift = shift % 26
-
+  new_shift = shift%26
+  
   arr = str.chars.to_a
   arr_new = []
-
+  
   arr.each do |letter|
     letter = letter.ord
     new_letter = letter + new_shift
-
+    
     if letter.between?(65, 90)
       if new_letter > 90
         new_letter = 64 + new_letter - 90
@@ -21,8 +21,5 @@ def caesar_cipher(str, shift)
     end
     arr_new.push(new_letter.chr)
   end
-
-  puts arr_new.join
+  arr_new.join
 end
-
-caesar_cipher('What a string!', 5)
