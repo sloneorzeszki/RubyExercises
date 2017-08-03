@@ -53,7 +53,7 @@ class Codemaker
 
   def generate_secret_pattern #by computer
     colors = ["yellow","red","green", "cyan", "blue", "magenta"]  
-    @secret_pattern = [colors[rand(6)],colors[rand(6)],colors[rand(6)],colors[rand(6)]]
+    @secret_pattern = [colors[rand(6)], colors[rand(6)], colors[rand(6)], colors[rand(6)]]
   end
 
   def select_secret_pattern #by human
@@ -113,7 +113,7 @@ class Codebreaker
   end
 
   def human_guess
-    input_pattern = gets.chomp.split()
+    gets.chomp.split()
   end
 
   def computer_guess
