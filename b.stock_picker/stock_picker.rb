@@ -14,7 +14,6 @@ def stock_picker(prices)
         results = {buy_price: buy_price, buy_day: buy_day, sell_price: sell_price, sell_day: buy_day + sell_day }
       end
     end
-
   end
 end
 
@@ -25,6 +24,3 @@ end
 def finish?(days_to_sell)
   days_to_sell.size == 1
 end
-
-stock_picker([1,18,4,8,17,3,6,9,19])
-
