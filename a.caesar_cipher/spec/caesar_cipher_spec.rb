@@ -1,6 +1,6 @@
-require '../lib/enumerable'
+require '../lib/caesar_cipher'
 
-describe Enumerable do
+describe "Caesar Cipher" do
 	it 'wraps alphabet' do
 		expect(caesar_cipher('z',1)).to eq('a')
 	end

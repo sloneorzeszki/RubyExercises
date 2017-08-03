@@ -1,15 +1,30 @@
+require 'pry'
+
 def stock_picker(prices)
-  max_profit = 0
-  days = []
-  prices.each_with_index do |x, y|
-    for i in y + 1...prices.count
-      if prices[i] - x > max_profit
-        max_profit = prices[i] - x
-        days = [y, i].to_s
+  max_profit, results = 0, {}
+  prices.each.with_index (1) do |buy_price, buy_day|
+
+    days_to_sell = prices[buy_day..-1] 
+    print_output(results) if finish?(days_to_sell)
+    
+    days_to_sell.each.with_index(1) do |sell_price, sell_day|
+      profit = sell_price - buy_price
+      if profit > max_profit
+        max_profit = profit
+        results = {buy_price: buy_price, buy_day: buy_day, sell_price: sell_price, sell_day: buy_day + sell_day }
       end
     end
+
   end
-  puts days
 end
 
-stock_picker([17,3,6,9,15,8,6,1,10])
+def print_output(results)
+  puts "buy at #{results[:buy_price]} on day #{results[:buy_day]}, sell at #{results[:sell_price]} on day #{results[:sell_day]}" 
+end
+
+def finish?(days_to_sell)
+  days_to_sell.size == 1
+end
+
+stock_picker([1,18,4,8,17,3,6,9,19])
+
