@@ -5,6 +5,7 @@ require 'pry'
 
 class Game
   include Messages
+  attr_accessor :board, :players, :pieces, :player_white, :player_black
 
   def initialize
     msg_welcome_message
@@ -13,6 +14,9 @@ class Game
     @pieces = create_pieces
   end
 
+  def testy
+
+  end
 
   private
 
