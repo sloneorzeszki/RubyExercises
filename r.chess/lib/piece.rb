@@ -6,11 +6,11 @@ class Piece
    @y = set_y(type, color)
   end
 
-  def set_x
-    
+  def set_x(type, color)
+
   end
 
-  def set_y
+  def set_y(type, color)
     
   end
 end
