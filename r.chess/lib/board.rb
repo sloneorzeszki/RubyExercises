@@ -1,23 +1,23 @@
 class Board
-  attr_reader :board
+  attr_reader :squares
 
   def initialize
-    @board = create_board
+    @squares = create_squares
   end
 
-  def create_board
+  def create_squares
     xs = ["a", "b", "c", "d", "e", "f", "g", "h"]
     ys = [1, 2, 3, 4, 5, 6, 7, 8]
-    board = {}
+    squares = {}
    
     #generate hash of squares with their coordinates as values
     xs.each.with_index(1) do |x, i|
       ys.each do |y| 
         key = x.to_s + y.to_s
         val = [i, y]
-        board[key] = val
+        squares[key] = val
       end
     end
-    board
+    squares
   end
 end

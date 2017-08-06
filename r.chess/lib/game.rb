@@ -1,10 +1,13 @@
 require_relative 'messages.rb'
+require_relative 'board.rb'
+require_relative 'player.rb'
+require 'pry'
 
 class Game
   include Messages
 
   def initialize
-    welcome_message
+        msg_welcome_message
     @board = create_board
     @players = create_players
     @pieces = create_pieces
@@ -13,7 +16,7 @@ class Game
   private
 
   def create_players
-    puts "Enter player names"
+    [create_player("white"),create_player("black")]
   end
 
   def create_board
@@ -24,4 +27,11 @@ class Game
 
   end
 
+  def create_player(color)
+    msg_enter_player_name(color)
+    name = gets.chomp
+    self.instance_variable_set("@player_#{color}", Player.new(name, color))
+  end
 end
+
+x=Game.new
