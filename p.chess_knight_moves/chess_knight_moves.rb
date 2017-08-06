@@ -23,7 +23,6 @@ class Knight
     x, y = root.val.first, root.val.last
     moves = [[x+2,y+1], [x+1,y+2], [x-1,y+2], [x-2,y+1], [x-2,y-1], [x-1,y-2], [x+1,y-2], [x+2,y-1]]
     moves.each { |move| @queue_nodes_temp << Node.new(move,root) if within_board?(move)}
-    return @queue_nodes_temp
   end
 
   # check if the calculated move is within the chessboard range
@@ -35,8 +34,6 @@ class Knight
   # check if within the currently generated nodes/moves is one that is equal to target position
   def check_for_solution(current_node, target_square)
     loop do
-      # @i+=1
-
       # loop until the temporary queue is empty 
       # (at this point these nodes are already added to @queue_nodes)
       if @queue_nodes_temp.empty? then break else @current_node = @queue_nodes_temp[0] end
@@ -50,27 +47,22 @@ class Knight
           @current_node = @current_node.parent
         end
         p final_path.reverse
-        # p @i.to_s + @current_node.val.to_s + "equals"
         exit
       else
-        # p @i.to_s + @current_node.val.to_s + "does not equal"
         @queue_nodes_temp.shift
       end
     end
   end
 
+  #main loop - until solution is found
   def process
-    # @i=0
     @queue_nodes = [@start]
-
     while
-      # p "next round"
       @queue_nodes.each { |node| possible_moves(node) }
       @queue_nodes += @queue_nodes_temp
       check_for_solution(@current_node, @target_square)
     end
-
   end
 end
 
-checking = Knight.new([0, 4], [6, 4])
+Knight.new([0, 4], [6, 4])
