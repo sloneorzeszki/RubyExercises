@@ -1,6 +1,8 @@
 require_relative 'messages.rb'
 require_relative 'board.rb'
 require_relative 'player.rb'
+require_relative 'piece.rb'
+require_relative 'helpers.rb'
 require 'pry'
 
 class Game
@@ -32,12 +34,19 @@ class Game
     end
 
     def create_pieces
-      [1, 8].each do |row|
-        [1,8].each { |col| }
-      end
+      create_pawns
+      create_non_pawns
     end
 
+      def create_pawns
 
+      end
+
+      def create_non_pawns
+        [["white", 1], ["black", 8]].each do |color| 
+          [1, 8].each { |col| @board.squares[Helpers.to_key([col, color[1]])][:piece] = Rook.new(color[0]) } #create rooks
+          [1, 8].each { |col| @board.squares[Helpers.to_key([col, color[1]])][:piece] = Rook.new(color[0]) } #create rooks
+          
+        end
+      end
 end
-
-# x=Game.new
