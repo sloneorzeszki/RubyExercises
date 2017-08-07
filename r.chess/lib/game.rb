@@ -14,9 +14,6 @@ class Game
     @pieces = create_pieces
   end
 
-  def testy
-
-  end
 
   private
 
@@ -35,7 +32,9 @@ class Game
     end
 
     def create_pieces
-
+      [1, 8].each do |row|
+        [1,8].each { |col| }
+      end
     end
 
 
