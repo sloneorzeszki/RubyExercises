@@ -75,14 +75,14 @@ class Game
       end
 
 
-    def address_valid?(address)
-      ("a".."h").include?(address[0]) && address[1].to_i.between?(1,8)
-    end
-    
     def ask_for_move
       selected_address = gets.chomp.to_s
       raise unless address_valid?(selected_address)
       selected_address
+    end
+
+    def address_valid?(address)
+      ("a".."h").include?(address[0]) && address[1].to_i.between?(1,8)
     end
 
     def make_a_move(from, to)
