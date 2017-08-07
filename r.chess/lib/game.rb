@@ -5,6 +5,8 @@ require_relative 'piece.rb'
 require_relative 'helpers.rb'
 require 'pry'
 
+include Helpers
+
 class Game
   include Messages
   attr_accessor :board, :players, :pieces, :player_white, :player_black
@@ -39,14 +41,19 @@ class Game
     end
 
       def create_pawns
-
+        [["white", 2], ["black", 7]].each do |color| 
+          (1..8).each { |x| @board.squares[to_key([x, color[1]])][:piece] = Pawn.new(color[0]) } #create rooks
+        end
       end
 
       def create_non_pawns
+        #color and y value
         [["white", 1], ["black", 8]].each do |color| 
-          [1, 8].each { |col| @board.squares[Helpers.to_key([col, color[1]])][:piece] = Rook.new(color[0]) } #create rooks
-          [1, 8].each { |col| @board.squares[Helpers.to_key([col, color[1]])][:piece] = Rook.new(color[0]) } #create rooks
-          
+          [1, 8].each { |x| @board.squares[to_key([x, color[1]])][:piece] = Rook.new(color[0]) } #create rooks
+          [2, 7].each { |x| @board.squares[to_key([x, color[1]])][:piece] = Knight.new(color[0]) } #create knights
+          [3, 6].each { |x| @board.squares[to_key([x, color[1]])][:piece] = Bishop.new(color[0]) } #create bishops
+          [4].each { |x| @board.squares[to_key([x, color[1]])][:piece] = Queen.new(color[0]) } #create queen
+          [5].each { |x| @board.squares[to_key([x, color[1]])][:piece] = King.new(color[0]) } #create king
         end
       end
 end

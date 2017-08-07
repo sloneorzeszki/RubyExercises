@@ -14,7 +14,7 @@ RSpec.describe Game do
       expect(subject.players.size).to eql(2)
     end
 
-    context "the pieces" do
+    context "where the pieces" do
       let(:sorting_pieces) do
         sorted_pieces = {}
         subject.board.squares
@@ -24,7 +24,7 @@ RSpec.describe Game do
         sorted_pieces
       end
       
-      it "has correct number of each piece type" do
+      it "have correct number of each piece type" do
         expect(sorting_pieces["rook"]).to eql 4
         expect(sorting_pieces["knight"]).to eql 4
         expect(sorting_pieces["bishop"]).to eql 4
@@ -33,15 +33,15 @@ RSpec.describe Game do
         expect(sorting_pieces["pawn"]).to eql 16
       end
 
-      it "has pawns on the right squares" do
+      it "have pawns on the right squares" do
         [2, 7].each do |y|
           (1..8).each do |x|
-            expect(@board.squares[Helpers.to_key([x, y])][:piece]).to be_a Pawn
+            expect(subject.board.squares[Helpers.to_key([x, y])][:piece]).to be_a Pawn
           end
         end
       end
 
-      it "has other pieces on the right squares" do
+      it "have other pieces on the right squares" do
 
       end
     end

@@ -15,7 +15,7 @@ class Board
       ys.each do |y| 
         key = x.to_s + y.to_s
         val = [i, y]
-        squares[key] = { coords: val, piece: nil }
+        squares[key.to_sym] = { coords: val, piece: nil }
       end
     end
     squares
