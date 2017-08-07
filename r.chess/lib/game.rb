@@ -4,6 +4,7 @@ require_relative 'player.rb'
 require_relative 'piece.rb'
 require_relative 'helpers.rb'
 require 'pry'
+require 'pry-nav'
 
 include Helpers
 
@@ -16,8 +17,24 @@ class Game
     @board = create_board
     @players = create_players
     @pieces = create_pieces
+    run_game
   end
 
+  def run_game
+    @players.cycle do |player|
+      begin
+        msg_ask_for_move_from(player)
+        from = ask_for_move
+        msg_ask_for_move_to(player)
+        to = ask_for_move
+        make_a_move(from, to)
+        binding.pry
+      rescue 
+        msg_move_not_allowed
+        retry
+      end
+    end
+  end
 
   private
 
@@ -56,4 +73,28 @@ class Game
           [5].each { |x| @board.squares[to_key([x, color[1]])][:piece] = King.new(color[0]) } #create king
         end
       end
+
+
+    def address_valid?(address)
+      ("a".."h").include?(address[0]) && address[1].to_i.between?(1,8)
+    end
+    
+    def ask_for_move
+      selected_address = gets.chomp.to_s
+      raise unless address_valid?(selected_address)
+      selected_address
+    end
+
+    def make_a_move(from, to)
+      raise unless move_allowed?(from, to)
+      piece = @board.squares[from][:piece]
+      @board.squares[from][:piece] = nil
+      @board.squares[to][:piece] = piece
+    end
+
+    def move_allowed?(from, to)
+      true
+    end
 end
+
+Game.new
