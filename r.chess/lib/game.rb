@@ -14,7 +14,8 @@ class Game
 
   def initialize
     msg_welcome_message
-    @board = create_board
+    create_board
+    binding.pry
     @players = create_players
     @pieces = create_pieces
     run_game
@@ -28,7 +29,6 @@ class Game
         msg_ask_for_move_to(player)
         to = ask_for_move
         make_a_move(from, to)
-        binding.pry
       rescue 
         msg_move_not_allowed
         retry
@@ -49,7 +49,8 @@ class Game
     end
 
     def create_board
-      @board = Board.new
+      board = Board.new
+      @board = board.squares
     end
 
     def create_pieces
@@ -59,18 +60,18 @@ class Game
 
       def create_pawns
         [["white", 2], ["black", 7]].each do |color| 
-          (1..8).each { |x| @board.squares[to_key([x, color[1]])][:piece] = Pawn.new(color[0]) } #create rooks
+          (1..8).each { |x| @board[to_key([x, color[1]])][:piece] = Pawn.new(color[0]) } #create rooks
         end
       end
 
       def create_non_pawns
         #color and y value
         [["white", 1], ["black", 8]].each do |color| 
-          [1, 8].each { |x| @board.squares[to_key([x, color[1]])][:piece] = Rook.new(color[0]) } #create rooks
-          [2, 7].each { |x| @board.squares[to_key([x, color[1]])][:piece] = Knight.new(color[0]) } #create knights
-          [3, 6].each { |x| @board.squares[to_key([x, color[1]])][:piece] = Bishop.new(color[0]) } #create bishops
-          [4].each { |x| @board.squares[to_key([x, color[1]])][:piece] = Queen.new(color[0]) } #create queen
-          [5].each { |x| @board.squares[to_key([x, color[1]])][:piece] = King.new(color[0]) } #create king
+          [1, 8].each { |x| @board[to_key([x, color[1]])][:piece] = Rook.new(color[0]) } #create rooks
+          [2, 7].each { |x| @board[to_key([x, color[1]])][:piece] = Knight.new(color[0]) } #create knights
+          [3, 6].each { |x| @board[to_key([x, color[1]])][:piece] = Bishop.new(color[0]) } #create bishops
+          [4].each { |x| @board[to_key([x, color[1]])][:piece] = Queen.new(color[0]) } #create queen
+          [5].each { |x| @board[to_key([x, color[1]])][:piece] = King.new(color[0]) } #create king
         end
       end
 
@@ -86,15 +87,16 @@ class Game
     end
 
     def make_a_move(from, to)
-      raise unless move_allowed?(from, to)
-      piece = @board.squares[from][:piece]
-      @board.squares[from][:piece] = nil
-      @board.squares[to][:piece] = piece
+      binding.pry
+      piece = @board[from.to_sym][:piece].dup 
+      @board[to.to_sym][:piece] = piece
+      @board[from.to_sym][:piece] = nil
     end
 
     def move_allowed?(from, to)
       true
     end
 end
+
 
 Game.new

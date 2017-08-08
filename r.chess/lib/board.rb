@@ -6,6 +6,10 @@ class Board
   end
 
   def create_squares
+    
+  end
+
+  def generate_square_coords
     xs = ["a", "b", "c", "d", "e", "f", "g", "h"]
     ys = [1, 2, 3, 4, 5, 6, 7, 8]
     squares = {}
@@ -15,7 +19,7 @@ class Board
       ys.each do |y| 
         key = x.to_s + y.to_s
         val = [i, y]
-        squares[key.to_sym] = { coords: val, piece: nil }
+        squares[key] = val
       end
     end
     squares

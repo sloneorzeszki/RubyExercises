@@ -5,6 +5,6 @@ module Helpers
   end
 
   def to_key(coords)
-    [(coords[0]+96).chr, coords[1]].join
+    [(coords[0]+96).chr, coords[1]].join.to_sym
   end
 end
