@@ -11,11 +11,7 @@ module Messages
       puts "This move is not allowed. Select again."
     end
 
-    def msg_ask_for_move_from(player)
-      print "#{player.name}, please select the piece to move: "
-    end
-    
-    def msg_ask_for_move_to(player)
-      print "#{player.name}, please select the target square: "
+    def msg_ask_for_move(player, where)
+      print "#{player.name}, please select the square (#{where}): "
     end
 end
