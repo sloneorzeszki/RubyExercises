@@ -65,7 +65,6 @@ class Game
       end
 
       def create_non_pawns
-        #color and y value
         [["white", 1], ["black", 8]].each do |color, y| 
           [1, 8].each { |x| @board[to_key([x, y])][:piece] = Rook.new(color) } 
           [2, 7].each { |x| @board[to_key([x, y])][:piece] = Knight.new(color) } 
