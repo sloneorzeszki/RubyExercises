@@ -15,9 +15,9 @@ class Game
   def initialize
     msg_welcome_message
     create_board
-    binding.pry
     @players = create_players
     @pieces = create_pieces
+    binding.pry
     run_game
   end
 
@@ -59,19 +59,19 @@ class Game
     end
 
       def create_pawns
-        [["white", 2], ["black", 7]].each do |color| 
-          (1..8).each { |x| @board[to_key([x, color[1]])][:piece] = Pawn.new(color[0]) } #create rooks
+        [["white", 2], ["black", 7]].each do |color, y| 
+          (1..8).each { |x| @board[to_key([x, y])][:piece] = Pawn.new(color) } 
         end
       end
 
       def create_non_pawns
         #color and y value
-        [["white", 1], ["black", 8]].each do |color| 
-          [1, 8].each { |x| @board[to_key([x, color[1]])][:piece] = Rook.new(color[0]) } #create rooks
-          [2, 7].each { |x| @board[to_key([x, color[1]])][:piece] = Knight.new(color[0]) } #create knights
-          [3, 6].each { |x| @board[to_key([x, color[1]])][:piece] = Bishop.new(color[0]) } #create bishops
-          [4].each { |x| @board[to_key([x, color[1]])][:piece] = Queen.new(color[0]) } #create queen
-          [5].each { |x| @board[to_key([x, color[1]])][:piece] = King.new(color[0]) } #create king
+        [["white", 1], ["black", 8]].each do |color, y| 
+          [1, 8].each { |x| @board[to_key([x, y])][:piece] = Rook.new(color) } 
+          [2, 7].each { |x| @board[to_key([x, y])][:piece] = Knight.new(color) } 
+          [3, 6].each { |x| @board[to_key([x, y])][:piece] = Bishop.new(color) } 
+          [4].each    { |x| @board[to_key([x, y])][:piece] = Queen.new(color) } 
+          [5].each    { |x| @board[to_key([x, y])][:piece] = King.new(color) } 
         end
       end
 
