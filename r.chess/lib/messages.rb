@@ -11,7 +11,7 @@ module Messages
       puts "This move is not allowed. Select again."
     end
 
-    def msg_ask_for_move(player, where)
+    def msg_ask_for_move_details(player, where)
       print "#{player.name}, please select the square (#{where}): "
     end
 end

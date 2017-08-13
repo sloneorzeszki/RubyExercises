@@ -20,4 +20,22 @@ class Board
     end
     squares
   end
+
+  def graphical_display
+    p "  A B C D E F G H"
+    p "  ---------------"
+    (1..8).each do |y|
+      row = "#{y}"
+      ("a".."h").each do |x|
+        row << " #{unicode(x+y.to_s)}"
+      end
+      p row
+    end
+    p "  ---------------"
+  end
+
+  def unicode(add)
+    piece = @squares[add.to_sym][:piece]
+    piece.nil? ? "\u2610" : piece.unicode
+  end
 end
