@@ -15,17 +15,17 @@ RSpec.describe Board do
 
   context "the squares" do
     it "have some particular addresses" do
-      expect(subject.squares).to include("a1", "b4", "c6", "h8")
+      expect(subject.squares).to include(:a1, :b4, :c6, :h8)
     end
 
     it "have coordinates (hash val) in an array form" do
-      expect(subject.squares["a1"]).to be_a(Hash)
+      expect(subject.squares[:a1]).to be_a(Hash)
     end
 
     it "have coordinates appropriate to their address" do
-      expect(subject.squares["a3"][:coords]).to eql([1,3])
-      expect(subject.squares["d5"][:coords]).to eql([4,5])
-      expect(subject.squares["f2"][:coords]).to eql([6,2])
+      expect(subject.squares[:a3][:coords]).to eql([1,3])
+      expect(subject.squares[:d5][:coords]).to eql([4,5])
+      expect(subject.squares[:f2][:coords]).to eql([6,2])
     end
 
     let(:compare) do

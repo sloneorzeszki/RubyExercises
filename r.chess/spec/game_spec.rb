@@ -1,5 +1,8 @@
 require '../lib/game'
 require 'pry'
+require '../lib/helpers.rb'
+
+include Helpers
 
 RSpec.describe Game do
   describe "preparing all game elements" do
@@ -9,8 +12,8 @@ RSpec.describe Game do
     end
 
     it "creates create two players" do
-      expect(subject.player_white).to be_a Player
-      expect(subject.player_black).to be_a Player
+      expect(subject.players[1]).to be_a Player
+      expect(subject.players[0]).to be_a Player
       expect(subject.players.size).to eql(2)
     end
 
@@ -36,14 +39,15 @@ RSpec.describe Game do
       it "have pawns on the right squares" do
         [2, 7].each do |y|
           (1..8).each do |x|
-            expect(subject.board.squares[Helpers.to_key([x, y])][:piece]).to be_a Pawn
+            expect(subject.board.squares[to_key([x, y])][:piece]).to be_a Pawn
           end
         end
       end
 
       it "have other pieces on the right squares" do
-
+        expect(subject.board.squares[:a1][:piece]).to be_a Rook
       end
+      
     end
   end
 end

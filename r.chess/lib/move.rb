@@ -1,15 +1,18 @@
-require 'messages.rb'
+require_relative 'messages.rb'
+require_relative 'helpers.rb'
+require 'pry'
 
 class Move
   include Messages
+  include Helpers
 
   def initialize(player, board)
-    @player = player
-    @board = board
-    @from   = ask_for_move_details("from")
-    @to     = ask_for_move_details("to")
-    @from_sq = @board[@from.to_sym]
-    @to_sq = @board[@to.to_sym]
+    @player     = player
+    @board      = board
+    @from       = ask_for_move_details("from")
+    @to         = ask_for_move_details("to")
+    @from_sq    = @board[@from.to_sym]
+    @to_sq      = @board[@to.to_sym]
     @from_piece = @from_sq[:piece]
     make_a_move if move_allowed?
   end
@@ -44,12 +47,13 @@ class Move
     #blank hash with moves in each direction
     moves = @from_piece.move_directions.product([[]]).to_h 
 
-    if ["Bishop", "Queen", "Rook"].include?(@from_piece.class)
+    if ["Bishop", "Queen", "Rook"].include?(@from_piece.class.to_s)
       keys_in_play = moves.keys
       (1..7).each do |distance|
         keys_in_play.each do |key|
+          coords = moves[key].last.nil? ? @from_sq[:coords] : moves[key].last
           new_move = offset(coords, key, distance)
-          moves[key] << new_move if move_possible?(new_move)
+          moves[key] << new_move if move_possible?(new_move) 
         end
 
         moves.keys.each do |key|
@@ -59,12 +63,15 @@ class Move
     else #King, Pawn, Knight
       
     end
-    actual_moves
+    moves
   end
 
   def move_possible?(move)
     square = @board[to_key(move)]
-    square[:piece].nil? && !piece_same_color_as_player(square) && within_board?(square)
+    !square.nil? && 
+    within_board?(square) && 
+    square[:piece].nil? && 
+    !piece_same_color_as_player(square) 
   end
 
   private

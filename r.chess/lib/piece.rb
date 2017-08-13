@@ -1,5 +1,5 @@
-load 'helpers'
-load 'constants'
+require_relative 'helpers'
+require_relative 'constants'
 
 class Piece
   include Helpers

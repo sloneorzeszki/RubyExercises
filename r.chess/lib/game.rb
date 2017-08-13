@@ -1,9 +1,9 @@
-load 'messages.rb'
-load 'board.rb'
-load 'player.rb'
-load 'piece.rb'
-load 'move.rb'
-require_relative 'helpers.rb'
+require_relative 'messages'
+require_relative 'board'
+require_relative 'player'
+require_relative 'piece'
+require_relative 'helpers'
+require_relative 'move'
 require 'pry'
 require 'pry-nav'
 
@@ -14,7 +14,7 @@ class Game
 
   def initialize
     msg_welcome_message
-    create_board
+    @board   = create_board
     @players = create_players
     @pieces  = create_pieces
     run_game
@@ -39,8 +39,9 @@ class Game
     end
 
     def create_board
-      @board = Board.new
+      board = Board.new
       @board_sq = board.squares
+      board
     end
 
     def create_pieces
@@ -69,5 +70,3 @@ class Game
     end
 end
 
-
-Game.new
