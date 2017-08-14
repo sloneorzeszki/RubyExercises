@@ -17,7 +17,6 @@ class Game
     @board   = create_board
     @players = create_players
     @pieces  = create_pieces
-    run_game
   end
 
   def run_game
@@ -27,13 +26,12 @@ class Game
   end
 
   private
-
     def create_players
       players = []
       ["white", "black"].each do |color|
         msg_enter_player_name(color)
         name = gets.chomp
-        players.push(self.instance_variable_set("@player_#{color}", Player.new(name, color)))
+        players.push(Player.new(name, color))
       end
       players
     end
@@ -66,7 +64,10 @@ class Game
       end
 
     def make_a_move(player)
-      Move.new(player, @board_sq)
+      move = Move.new(player, @board_sq)
+      move
     end
 end
 
+chess=Game.new
+chess.run_game

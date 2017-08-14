@@ -1,6 +1,4 @@
 require '../lib/game'
-require 'pry'
-require '../lib/helpers.rb'
 
 include Helpers
 
@@ -11,7 +9,7 @@ RSpec.describe Game do
       expect(subject.board.squares).to be_a(Hash) 
     end
 
-    it "creates create two players" do
+    it "creates two players" do
       expect(subject.players[1]).to be_a Player
       expect(subject.players[0]).to be_a Player
       expect(subject.players.size).to eql(2)
@@ -46,8 +44,34 @@ RSpec.describe Game do
 
       it "have other pieces on the right squares" do
         expect(subject.board.squares[:a1][:piece]).to be_a Rook
+        expect(subject.board.squares[:a2][:piece]).to be_a Pawn
+        expect(subject.board.squares[:b1][:piece]).to be_a Knight
+        expect(subject.board.squares[:c1][:piece]).to be_a Bishop
+        expect(subject.board.squares[:d1][:piece]).to be_a Queen
+        expect(subject.board.squares[:e1][:piece]).to be_a King
       end
-      
+    end
+  end
+
+end
+
+RSpec.describe Move do
+  describe "making a move" do
+    before do
+      allow_any_instance_of(Move).to receive(:ask_for_move_details).with("from") { "c1" }
+      allow_any_instance_of(Move).to receive(:ask_for_move_details).with("to") { "d1" }
+    end
+    
+    it "checks something" do
+      # allow(@move).to receive(:ask_for_move_details).and_return("a1", "a6")
+      # allow(Move).to receive(:gets).and_return("a1", "a6")
+      # name = $stdin.gets
+      @move = Move.new(Player.new("p1","white"), Board.new.squares)
+      expect(@move.board).to be_a Board
+      # expect(name).to eq("a6")
+    #   expect(@move).to be_a Move
+    #  @move.ask_for_move_details("from")
+    #  expect(@move.from).to eq("a1")
     end
   end
 end

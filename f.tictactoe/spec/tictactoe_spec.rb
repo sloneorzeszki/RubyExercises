@@ -10,7 +10,7 @@ end
 
 describe Board do
   before do
-   IO.any_instance.stub(:puts) #may be replace with any class in order to block puts from it
+   IO.any_instance.stub(:puts) #may be replaced with any class in order to block puts from it
   end
 
   let(:game) {TicTacToe.new}
@@ -22,7 +22,10 @@ describe Board do
     end
 
     it "doesn't put the player's sign if field is already taken" do
-      allow(game.player1).to receive(:select_value).and_return(2) #will be called only if there is a conflict (the second time the mark_move is run for [0,1]). returning the array with both coords ([0,1]) would loop in infinity, but returning 2 will result in coords [1,1] - conflict will appear only once which is enough for the purpose of this test
+      #will be called only if there is a conflict (the second time the mark_move is run for [0,1]).
+      #returning the array with both coords ([0,1]) would loop in infinity, but returning 2 will 
+      #result in coords [1,1] - conflict will appear only once which is enough for the purpose of this test
+      allow(game.player1).to receive(:select_value).and_return(2) 
       game.board.mark_move([0,1],game.player1)
       game.board.mark_move([0,1],game.player1)
       expect(game.board.board).to eq([["_","X","_"],["_","X","_"],["_","_","_"]])
@@ -66,7 +69,7 @@ end
 
 describe TicTacToe do
   before do
-    IO.any_instance.stub(:puts) #możesz zastąpić IO jakąkolwiek klasą żeby ograniczyć blokowanie putsa tylko do niej
+    IO.any_instance.stub(:puts)
   end
 
   let(:game) {TicTacToe.new}

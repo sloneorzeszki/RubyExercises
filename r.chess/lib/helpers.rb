@@ -30,12 +30,13 @@ module Helpers
     else 
       [0, 0]
     end
+    
     [coords[0]+offset[0], coords[1]+offset[1]]
   end
 
 
   def within_board?(square)
     squares_range = (1..8).to_a
-    return true if squares_range.include?(square.first) && squares_range.include?(square.last)
+    return true if squares_range.include?(square[:coords].first) && squares_range.include?(square[:coords].last)
   end
 end
