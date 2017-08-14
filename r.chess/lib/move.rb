@@ -10,10 +10,10 @@ class Move
     @player     = player
     @board      = board
     @from       = ask_for_move_details("from")
-    @to         = ask_for_move_details("to")
     @from_sq    = @board[@from.to_sym]
-    @to_sq      = @board[@to.to_sym]
     @from_piece = @from_sq[:piece]
+    @to         = ask_for_move_details("to")
+    @to_sq      = @board[@to.to_sym]
     make_a_move if move_allowed?
   end
 
@@ -47,7 +47,7 @@ class Move
     #blank hash with moves in each direction
     moves = @from_piece.move_directions.product([[]]).to_h 
 
-    if ["Bishop", "Queen", "Rook"].include?(@from_piece.class.to_s)
+    if %w(Bishop Queen Rook).include?(@from_piece.class.to_s)
       keys_in_play = moves.keys
       (1..7).each do |distance|
         keys_in_play.each do |key|
@@ -55,12 +55,13 @@ class Move
           new_move = offset(coords, key, distance)
           moves[key] << new_move if move_possible?(new_move) 
         end
+    binding.pry
 
         moves.keys.each do |key|
           keys_in_play << key unless moves[key][distance-1].nil?
         end
       end
-    else #King, Pawn, Knight
+    elsif %w(King Pawn Knight).include?(@from_piece.class.to_s)
       
     end
     moves

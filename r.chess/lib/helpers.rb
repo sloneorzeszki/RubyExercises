@@ -23,6 +23,10 @@ module Helpers
       [0, -1*multiplier]
     when "up"
       [0, 1*multiplier] 
+    when "right"
+      [1*multiplier, 0] 
+    when "left"
+      [-1*multiplier, 0] 
     else 
       [0, 0]
     end

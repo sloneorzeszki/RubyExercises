@@ -16,6 +16,7 @@ class Pawn < Piece
   def initialize(color)
     super
     @unicode = color == "white" ? WHITE_PAWN : BLACK_PAWN
+    @move_directions = ["up_left", "up_right", "up", "up_double"]
   end
 
   def possible_moves(coords)
@@ -29,6 +30,7 @@ class Rook < Piece
   def initialize(color)
     super
     @unicode = color == "white" ? WHITE_ROOK : BLACK_ROOK
+    @move_directions = ["up", "down", "left", "right"]
   end
 
   def possible_moves(coords)
@@ -40,6 +42,7 @@ class Knight < Piece
   def initialize(color)
     super
     @unicode = color == "white" ? WHITE_KNIGHT : BLACK_KNIGHT
+    @move_directions = ["knight"]
   end
 
   def possible_moves(coords)
@@ -59,6 +62,7 @@ class Queen < Piece
   def initialize(color)
     super
     @unicode = color == "white" ? WHITE_QUEEN : BLACK_QUEEN
+    @move_directions = ["up_left", "up_right", "down_left", "down_right", "up", "down", "left", "right"]
   end
 
   def possible_moves(coords)

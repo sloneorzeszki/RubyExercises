@@ -45,7 +45,7 @@ class Game
     end
 
     def create_pieces
-      create_pawns
+      # create_pawns
       create_non_pawns
     end
 
