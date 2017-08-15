@@ -10,6 +10,9 @@ module Helpers
   end
 
   def offset(coords, name = nil, multiplier = 1)
+    x = coords[0]
+    y = coords[1]
+
     offset = case name
     when "up_right"
       [1*multiplier, 1*multiplier]
@@ -27,13 +30,24 @@ module Helpers
       [1*multiplier, 0] 
     when "left"
       [-1*multiplier, 0] 
+    when "up_double"
+      [0, 2]
+    when "knight_all"
+      [[2,1], [1,2], [-1,2], [-2,1], [-2,1], [-1,-2], [1,-2], [2,-1]]
     else 
       [0, 0]
     end
-    
-    [coords[0]+offset[0], coords[1]+offset[1]]
+
+    if name == "knight_all"
+      offset.map! { |off| [x+off[0], y+off[1]] }
+    else
+      [x+offset[0], y+offset[1]]
+    end
   end
 
+  def address_valid?(add)
+    ("a".."h").include?(add[0]) && add[1].to_i.between?(1,8)
+  end
 
   def within_board?(square)
     squares_range = (1..8).to_a

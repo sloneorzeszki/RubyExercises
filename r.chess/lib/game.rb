@@ -43,7 +43,7 @@ class Game
     end
 
     def create_pieces
-      # create_pawns
+      create_pawns
       create_non_pawns
     end
 
@@ -69,5 +69,5 @@ class Game
     end
 end
 
-chess=Game.new
-chess.run_game
+@@chess=Game.new
+@@chess.run_game

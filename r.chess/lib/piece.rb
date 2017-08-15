@@ -17,6 +17,7 @@ class Pawn < Piece
     super
     @unicode = color == "white" ? WHITE_PAWN : BLACK_PAWN
     @move_directions = ["up_left", "up_right", "up", "up_double"]
+    @first_move_done = nil
   end
 
   def possible_moves(coords)
@@ -25,12 +26,13 @@ class Pawn < Piece
 end
 
 class Rook < Piece
-  attr_accessor :unicode
+  attr_accessor :unicode, :first_move_done
 
   def initialize(color)
     super
     @unicode = color == "white" ? WHITE_ROOK : BLACK_ROOK
     @move_directions = ["up", "down", "left", "right"]
+    @first_move_done = false
   end
 
   def possible_moves(coords)
@@ -42,7 +44,7 @@ class Knight < Piece
   def initialize(color)
     super
     @unicode = color == "white" ? WHITE_KNIGHT : BLACK_KNIGHT
-    @move_directions = ["knight"]
+    @move_directions = ["knight_all"]
   end
 
   def possible_moves(coords)
@@ -74,6 +76,7 @@ class King < Piece
   def initialize(color)
     super
     @unicode = color == "white" ? WHITE_KING : BLACK_KING
+    @move_directions = ["up_left", "up_right", "down_left", "down_right", "up", "down", "left", "right"]
   end
 
   def possible_moves(coords)
