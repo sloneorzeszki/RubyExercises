@@ -52,49 +52,4 @@ RSpec.describe Game do
       end
     end
   end
-
-end
-
-RSpec.describe Move do
-  describe "each piece " do
-
-  end    
-
-  describe "making a move" do
-    before do
-      allow_any_instance_of(Move).to receive(:ask_for_move_details).with("from") { "c1" }
-      allow_any_instance_of(Move).to receive(:ask_for_move_details).with("to") { "d1" }
-      allow_any_instance_of(Move).to receive(:make_a_move)
-      allow_any_instance_of(Move).to receive(:move_allowed?)
-    end
-    
-    it "checks something" do
-      # allow(@move).to receive(:ask_for_move_details).and_return("a1", "a6")
-      # allow(Move).to receive(:gets).and_return("a1", "a6")
-      # name = $stdin.gets
-      @move = Move.new(Player.new("p1","white"), Board.new.squares)
-      expect(@move.board).to be_a Board
-      # expect(name).to eq("a6")
-    #   expect(@move).to be_a Move
-    #  @move.ask_for_move_details("from")
-    #  expect(@move.from).to eq("a1")
-    end
-  end
-
-  context "#within_possible_moves will return false" do
-    it "if the square is already taken by a piece of the same color" do
-    end
-
-    it "when the move is out of reach of the piece (assuming blank board)" do
-    end
-
-    it "when the move is out of reach of the piece (other piece on the way)" do
-    end
-
-    it "if the move is out of the board" do
-    end
-
-    it "if the piece belongs to the other player" do
-    end
-  end
 end

@@ -1,6 +1,5 @@
-require_relative 'messages.rb'
-require_relative 'helpers.rb'
-require 'pry'
+require_relative 'messages'
+require_relative 'helpers'
 
 class Move
   include Messages
@@ -16,14 +15,15 @@ class Move
     @from_piece = @from_sq[:piece]
     @to         = ask_for_move_details("to")
     @to_sq      = @board[@to.to_sym]
-    make_a_move if within_possible_moves?
+    @to_piece   = @to_sq[:piece]
+    make_a_movie if within_possible_moves?
   end
 
   def ask_for_move_details(from_or_to)
     begin
       msg_ask_for_move_details(@player, from_or_to)
       chosen_address = gets.chomp.to_s
-      # raise unless address_valid?(chosen_address)
+      raise unless address_valid?(chosen_address)
     rescue
       msg_move_not_allowed
       retry
@@ -42,7 +42,7 @@ class Move
         keys_in_play.each do |key|
           coords = moves[key].last.nil? ? @from_sq[:coords] : moves[key].last
           new_move = offset(coords, key)
-          moves[key] << new_move if potential_move_allowed?(new_move) 
+          moves[key] << new_move if possible_move?(new_move) 
         end
 
         moves.keys.each do |key|
@@ -51,32 +51,32 @@ class Move
       end
 
     elsif @from_piece.instance_of?(Knight)
-      potential_moves = offset(@from_sq[:coords], moves.keys)
-      potential_moves.each { |new_move| all_permitted_moves << new_move if potential_move_allowed?(@board[to_key(new_move)])}
+      knight_moves = offset(@from_sq[:coords], moves.keys[0])
+      knight_moves.each { |new_move| moves[moves.keys[0]] << new_move if possible_move?(@board[to_key(new_move)])}
 
     elsif @from_piece.instance_of?(King)
       moves.keys.each do |key|
         new_move = offset(@from_sq[:coords], key)
-        moves[key] << new_move if potential_move_allowed?(@board[to_key(new_move)]) 
+        moves[key] << new_move if possible_move?(@board[to_key(new_move)]) 
       end
 
     elsif @from_piece.instance_of?(Pawn)
       moves.keys.each do |key|
         new_move = offset(@from_sq[:coords], key)
-        moves[key] << new_move if potential_move_allowed?(@board[to_key(new_move)], key) 
+        moves[key] << new_move if possible_move?(@board[to_key(new_move)], key) 
       end
 
     end
     all_permitted_moves = moves.keys.map { |key|  moves[key] }.flatten(1)
-    binding.pry
     all_permitted_moves.include?(to_coords(@to))
+    true
   end
 
-  def potential_move_allowed?(square, key=nil)
+  def possible_move?(square, key=nil)
     existing_square?(square) &&
     either_no_piece_or_opponents_color(square) &&
     causes_no_check_for_the_current_player? &&
-    pawn_movement(key) if @from_piece.instance_of?(Pawn)
+    (@from_piece.instance_of?(Pawn) ? pawn_movement(key) : true)
   end
 
   def existing_square?(square)
@@ -92,23 +92,29 @@ class Move
   end
 
   def pawn_movement(key)
-    binding.pry
     if key == "up_double" 
      if @from_piece.color == "white"
-       @from_sq[:coords[1]] == 2 && @from_piece.first_move_done.nil?
+      if @from_sq[:coords][1] == 2 && @from_piece.first_move_done.nil?
+        @from_piece.first_move_done = true
+      end
      elsif @from_piece.color == "black"
-       @from_sq[:coords[1]] == 7  && @from_piece.first_move_done.nil?
+      if @from_sq[:coords][1] == 7  && @from_piece.first_move_done.nil?
+        @from_piece.first_move_done = true
+      end
      end
-    elsif (key == "up_right" || key == "up_left") && !@to_sq[:piece].nil?
-      @to_sq[:piece].color != @from_piece.color
+    elsif (key == "up_right" || key == "up_left") 
+      if !@to_sq[:piece].nil?
+        @to_sq[:piece].color != @from_piece.color
+      end
+    else
+      true
     end
   end
 
-  private
 
-  def make_a_move
-    piece = @board[from.to_sym][:piece].dup unless @board[from.to_sym][:piece].nil?
-    @board[to.to_sym][:piece] = piece
-    @board[from.to_sym][:piece] = nil
+  def make_a_movie
+    @to_sq[:piece] = @from_piece
+    @from_sq[:piece] = nil
+    board
   end
 end

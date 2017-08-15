@@ -1,8 +1,13 @@
+require_relative 'piece'
+require_relative 'helpers'
+
 class Board
+  include Helpers
   attr_reader :squares
 
   def initialize
     @squares = create_squares
+    create_pieces
   end
 
   def create_squares
@@ -20,6 +25,28 @@ class Board
     end
     squares
   end
+
+  def create_pieces
+    create_pawns
+    create_non_pawns
+  end
+
+    def create_pawns
+      [["white", 2], ["black", 7]].each do |color, y| 
+        (1..8).each { |x| @squares[to_key([x, y])][:piece] = Pawn.new(color) } 
+      end
+    end
+
+    def create_non_pawns
+      [["white", 1], ["black", 8]].each do |color, y| 
+        [1, 8].each { |x| @squares[to_key([x, y])][:piece] = Rook.new(color) } 
+        [2, 7].each { |x| @squares[to_key([x, y])][:piece] = Knight.new(color) } 
+        [3, 6].each { |x| @squares[to_key([x, y])][:piece] = Bishop.new(color) } 
+        [4].each    { |x| @squares[to_key([x, y])][:piece] = Queen.new(color) } 
+        [5].each    { |x| @squares[to_key([x, y])][:piece] = King.new(color) } 
+      end
+    end
+
 
   def graphical_display
     p "  A B C D E F G H"

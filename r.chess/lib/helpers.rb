@@ -9,6 +9,7 @@ module Helpers
     [(coords[0]+96).chr, coords[1]].join.to_sym
   end
 
+  #make an offset from the original coords
   def offset(coords, name = nil, multiplier = 1)
     x = coords[0]
     y = coords[1]
@@ -45,12 +46,8 @@ module Helpers
     end
   end
 
+  #check format of board address provided by user
   def address_valid?(add)
     ("a".."h").include?(add[0]) && add[1].to_i.between?(1,8)
-  end
-
-  def within_board?(square)
-    squares_range = (1..8).to_a
-    return true if squares_range.include?(square[:coords].first) && squares_range.include?(square[:coords].last)
   end
 end

@@ -13,6 +13,8 @@ class Piece
 end
 
 class Pawn < Piece
+  attr_accessor :first_move_done
+  
   def initialize(color)
     super
     @unicode = color == "white" ? WHITE_PAWN : BLACK_PAWN
