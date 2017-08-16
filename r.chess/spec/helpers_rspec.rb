@@ -12,7 +12,6 @@ module HelpersRSpec
 
   def move_piece(*moves)
     moves.each do |move|
-      
     end
   end
 end
