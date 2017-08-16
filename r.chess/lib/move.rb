@@ -27,22 +27,25 @@ class Move
     address
   end
 
-  def address_valid?(add, from_or_to)
-    two_characters_long?(add) &&
-    within_board?(add) &&
-    color_or_empty?(from_or_to, @board, add)
+  def address_valid?(address, from_or_to)
+    two_characters_long?(address) &&
+    within_board?(address) &&
+    color_or_empty?(from_or_to, @board, address, @player)
   end
 
   def within_possible_moves?
     !from_piece.nil? && possible_moves.include?(to_coords(@to))
   end
 
+  #calculate all @from offsets (depending on piece type) and filter valid moves only
   def possible_moves
     #blank hash with moves in each direction as keys
     moves = from_piece.move_directions.map { |dir| [dir, []] }.to_h
     all_permitted_moves = []
+    piece_type = from_piece.class.to_s
 
-    if %w(Bishop Queen Rook).include?(from_piece.class.to_s)
+    case piece_type
+    when "Bishop", "Queen", "Rook"
       keys_in_play = moves.keys
       (1..7).each do |distance|
         keys_in_play.each do |key|
@@ -54,15 +57,15 @@ class Move
           keys_in_play << key unless moves[key][distance-1].nil?
         end
       end
-    elsif from_piece.instance_of?(Knight)
+    when "Knight"
       knight_moves = offset(from_sq[:coords], moves.keys[0])
       knight_moves.each { |new_move| moves[moves.keys[0]] << new_move if possible_move?(new_move)}
-    elsif from_piece.instance_of?(King)
+    when "Ping"
       moves.keys.each do |key|
         new_move = offset(from_sq[:coords], key)
         moves[key] << new_move if possible_move?(new_move) 
       end
-    elsif from_piece.instance_of?(Pawn)
+    when "Pawn"
       moves.keys.each do |key|
         new_move = offset(from_sq[:coords], key)
         moves[key] << new_move if possible_move?(new_move, key) 
@@ -73,12 +76,18 @@ class Move
     all_permitted_moves
   end
 
+  def find_moves(moves)
+    moves.keys.each do |key|
+
+    end
+  end
+
   def possible_move?(coords, key=nil)
     square = @board[to_key(coords)]
     existing_square?(square) &&
     either_no_piece_or_opponents_color(square) &&
     causes_no_check_for_the_current_player? &&
-    (from_piece.instance_of?(Pawn) ? pawn_movement(key) : true)
+    (!key.nil? ? pawn_logic(key, square) : true)
   end
 
   def existing_square?(square)
@@ -93,8 +102,8 @@ class Move
     true
   end
 
-  def pawn_movement(key)
-    if key == "up_double" 
+  def pawn_logic(key, square)
+    if key == "up_double" || key == "down_double" 
      if from_piece.color == "white"
       if from_sq[:coords][1] == 2 && from_piece.first_move_done.nil?
         from_piece.first_move_done = true
@@ -104,11 +113,11 @@ class Move
         from_piece.first_move_done = true
       end
      end
-    elsif (key == "up_right" || key == "up_left") 
-      if !to_sq[:piece].nil?
-        to_sq[:piece].color != from_piece.color
+    elsif ["up_right","up_left","down_right","down_left"].include?(key) 
+      if !square[:piece].nil?
+        square[:piece].color != from_piece.color
       end
-    else
+    elsif (key == "up" || key == "down") && square[:piece].nil?
       true
     end
   end

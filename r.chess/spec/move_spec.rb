@@ -75,25 +75,27 @@ RSpec.describe Move do
   end
 
   describe "#within_possible_moves?" do
-    context "identifies all allowed moves in the current setup for" do
+    context "identifies all allowed moves in the current board setup for" do
       before do
         nullize(%w(d2 e2))
-        move_piece(["b2","b4"], ["c2","c4"], ["f2","f4"], ["a1","a4"], ["b1","a3"], ["c1","f4"], ["d1","c2"]) #white
-        move_piece(["d7","f3"], ["g8","f6"], ["d8","h4"], ["c8","b5"], ["b7","b5"], ["b8","e5"]) #black
+        move_piece(["b2","b4"], ["h1","e6"], ["c2","c4"], ["f2","f4"], ["a1","a4"], ["b1","a3"], ["c1","f4"], ["d1","c2"], ["f1","f2"]) #white
+        move_piece(["d7","f3"], ["f8","d3"], ["e8","d7"], ["h8","h6"], ["g8","f6"], ["d8","h4"], ["c8","b5"], ["b7","b5"], ["b8","e5"]) #black
       end
 
       it "Pawn" do
-        subject.from = "a2"
-        expect(subject.possible_moves).to eq([])
-        subject.from = "g2"
-        expect(subject.possible_moves).to eq([[7,3],[7,4],[6,3]])
-        subject.from = "h2"
-        expect(subject.possible_moves).to eq([[8,3],[8,4]])
-        subject.from = "b4"
-        expect(subject.possible_moves).to eq([])
-        subject.from = "c4"
-        expect(subject.possible_moves).to eq([])
         board.graphical_display
+        subject.from = "a2"
+        expect(subject.possible_moves.sort).to eq([])
+        subject.from = "a7"
+        expect(subject.possible_moves.sort).to eq([[1,6],[1,5]].sort)
+        subject.from = "g2"
+        expect(subject.possible_moves.sort).to eq([[7,3],[7,4],[6,3]].sort)
+        subject.from = "h2"
+        expect(subject.possible_moves.sort).to eq([[8,3],[8,4]].sort)
+        subject.from = "b4"
+        expect(subject.possible_moves.sort).to eq([].sort)
+        subject.from = "c4" #will not make up_double more than once
+        expect(subject.possible_moves.sort).to eq([[2,5],[3,5]].sort)
       end
       
       it "King" do

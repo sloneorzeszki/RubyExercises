@@ -47,9 +47,10 @@ module Helpers
     end
   end
 
-  def color_or_empty?(from_or_to, board, add)
+  #check if the color of the @from piece is not wrong or the piece is not nil
+  def color_or_empty?(from_or_to, board, add, player)
     if from_or_to == "from" 
-      !@board[add.to_sym][:piece].nil? && @board[add.to_sym][:piece].color == @player.color
+      !board[add.to_sym][:piece].nil? && board[add.to_sym][:piece].color == player.color
     else
       true
     end
