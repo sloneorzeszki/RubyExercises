@@ -25,6 +25,7 @@ class Game
   end
 
   private
+
     def create_players
       players = []
       ["white", "black"].each do |color|
@@ -42,10 +43,11 @@ class Game
     end
 
     def make_a_move(player)
-      @board.squares = Move.new(player, @board_sq)
+      move = Move.new(player, @board_sq)
+      @board.squares = move.board
       @board.graphical_display
     end
 end
 
-@@chess=Game.new
-@@chess.run_game
+# @@chess=Game.new
+# @@chess.run_game

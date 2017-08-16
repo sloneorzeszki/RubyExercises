@@ -3,7 +3,7 @@ require_relative 'helpers'
 
 class Board
   include Helpers
-  attr_reader :squares
+  attr_accessor :squares
 
   def initialize
     @squares = create_squares
@@ -51,7 +51,7 @@ class Board
   def graphical_display
     p "  A B C D E F G H"
     p "  ---------------"
-    (1..8).each do |y|
+    (1..8).reverse_each do |y|
       row = "#{y}"
       ("a".."h").each do |x|
         row << " #{unicode(x+y.to_s)}"
@@ -59,10 +59,11 @@ class Board
       p row
     end
     p "  ---------------"
+    p "  A B C D E F G H"
   end
 
-  def unicode(add)
-    piece = @squares[add.to_sym][:piece]
+  def unicode(address)
+    piece = @squares[address.to_sym][:piece]
     piece.nil? ? "\u2610" : piece.unicode
   end
 end

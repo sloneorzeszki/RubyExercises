@@ -48,6 +48,6 @@ module Helpers
 
   #check format of board address provided by user
   def address_valid?(add)
-    ("a".."h").include?(add[0]) && add[1].to_i.between?(1,8)
+    ("a".."h").include?(add[0]) && add[1].to_i.between?(1,8) && add.size == 2
   end
 end
