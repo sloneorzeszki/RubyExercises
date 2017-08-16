@@ -11,9 +11,12 @@ module HelpersRSpec
   end
 
   def move_piece(*moves)
-    boardsq=board.squares
     moves.each do |move|
-      
+      board.squares[move[1].to_sym][:piece] = board.squares[move[0].to_sym][:piece]
+      board.squares[move[0].to_sym][:piece] = nil
     end
+    board.graphical_display
   end
+
+
 end

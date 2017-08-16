@@ -24,16 +24,22 @@ class Move
     begin
       msg_ask_for_address(@player, from_or_to)
       chosen_address = gets.chomp.to_s
-      raise msg_not_valid_address unless address_valid?(chosen_address)
+      raise msg_not_valid_address unless address_valid?(chosen_address, from_or_to)
     rescue 
       retry
     end
     chosen_address
   end
 
+  def address_valid?(add, from_or_to)
+    two_characters_long?(add) &&
+    within_board?(add) &&
+    color_or_empty?(from_or_to, @board, add)
+  end
+
   def within_possible_moves?
     return false if @from_piece.nil?
-    #blank hash with moves in each direction
+    #blank hash with moves in each direction as keys
     moves = @from_piece.move_directions.map { |dir| [dir, []] }.to_h
     all_permitted_moves = []
 
@@ -45,29 +51,25 @@ class Move
           new_move = offset(coords, key)
           moves[key] << new_move if possible_move?(to_key(new_move)) 
         end
-
         moves.keys.each do |key|
           keys_in_play << key unless moves[key][distance-1].nil?
         end
       end
-
     elsif @from_piece.instance_of?(Knight)
       knight_moves = offset(@from_sq[:coords], moves.keys[0])
       knight_moves.each { |new_move| moves[moves.keys[0]] << new_move if possible_move?(new_move)}
-
     elsif @from_piece.instance_of?(King)
       moves.keys.each do |key|
         new_move = offset(@from_sq[:coords], key)
         moves[key] << new_move if possible_move?(new_move) 
       end
-
     elsif @from_piece.instance_of?(Pawn)
       moves.keys.each do |key|
         new_move = offset(@from_sq[:coords], key)
         moves[key] << new_move if possible_move?(new_move, key) 
       end
-
     end
+    
     all_permitted_moves = moves.keys.map { |key|  moves[key] }.flatten(1)
     all_permitted_moves.include?(to_coords(@to))
   end

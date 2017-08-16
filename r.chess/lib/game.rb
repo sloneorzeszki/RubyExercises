@@ -49,5 +49,5 @@ class Game
     end
 end
 
-# @@chess=Game.new
-# @@chess.run_game
+@@chess=Game.new
+@@chess.run_game

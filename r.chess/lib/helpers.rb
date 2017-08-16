@@ -46,8 +46,19 @@ module Helpers
     end
   end
 
-  #check format of board address provided by user
-  def address_valid?(add)
-    ("a".."h").include?(add[0]) && add[1].to_i.between?(1,8) && add.size == 2
+  def color_or_empty?(from_or_to, board, add)
+    if from_or_to == "from" 
+      !@board[add.to_sym][:piece].nil? && @board[add.to_sym][:piece].color == @player.color
+    else
+      true
+    end
+  end
+
+  def two_characters_long?(add)
+    add.size == 2
+  end
+
+  def within_board?(add)
+    ("a".."h").include?(add[0]) && add[1].to_i.between?(1,8)
   end
 end

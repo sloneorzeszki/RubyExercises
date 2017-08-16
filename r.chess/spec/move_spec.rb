@@ -1,10 +1,12 @@
 require '../lib/move'
 require '../lib/player'
 require '../lib/board'
-require './helpers_rspec.rb'
+require '../lib/helpers'
+require './helpers_rspec'
 
 RSpec.configure do |config|
   config.include HelpersRSpec
+  config.include Helpers
 end
 
 RSpec.describe Move do
@@ -26,6 +28,21 @@ RSpec.describe Move do
         expect(subject.to).to eq("b3")
         expect(subject.board[subject.from.to_sym]).to be_a Hash
       end
+  end
+
+  describe "#address_valid?"
+    it "if it's within a board" do
+      expect(subject.address_valid?("z7", "from")).to be false
+    end
+
+    it "for @from piece and player have same color" do
+      expect(subject.address_valid?("h7", "from")).to be false
+      expect(subject.address_valid?("a2", "from")).to be true
+    end
+
+    it "it's not empty" do
+      expect(subject.address_valid?("a2", "to")).to be true
+      expect(subject.address_valid?("a4", "from")).to be false
     end
   end
 
@@ -38,15 +55,18 @@ RSpec.describe Move do
       end
 
       it "if the square is already taken by a piece of the same color" do
-        board.graphical_display
+        subject.from = "a3"
+        subject.to = "c2"
+        expect(subject.possible_move?(to_coords(subject.to))).to be false
       end
 
       it "if the move is out of the board (square does not exist)" do
-        expect(subject.possible_move?([1,3])).to be false
+        subject.from = "b9"
+        subject.to = "i2"
+        expect(subject.possible_move?(to_coords(subject.to))).to be false
+        subject.to = "i2"
       end
 
-      it "if the piece belongs to the other player" do
-      end
 
       it "if there is no piece to move on @from square" do
       end
