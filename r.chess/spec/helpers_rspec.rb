@@ -16,6 +16,4 @@ module HelpersRSpec
       board.squares[move[0].to_sym][:piece] = nil
     end
   end
-
-
 end

@@ -13,7 +13,7 @@ class Move
     @board   = board
     @from    = ask_for_address("from")
     @to      = ask_for_address("to")
-    apply_the_move if within_possible_moves?
+    apply_the_move 
   end
 
   def ask_for_address(from_or_to)
@@ -99,9 +99,13 @@ class Move
   end
 
   def apply_the_move
-    to_sq[:piece] = from_piece
-    from_sq[:piece] = nil
-    @board
+    if within_possible_moves?
+      to_sq[:piece] = from_piece
+      from_sq[:piece] = nil
+      @board
+    else
+      @board = nil
+    end
   end
 
   private

@@ -43,11 +43,17 @@ class Game
     end
 
     def make_a_move(player)
-      move = Move.new(player, @board_sq)
+      begin
+        move = Move.new(player, @board_sq)
+        raise if move.board.nil?
+      rescue
+        msg_move_not_allowed
+        retry
+      end
       @board.squares = move.board
       @board.graphical_display
     end
 end
 
-@@chess=Game.new
-@@chess.run_game
+chess=Game.new
+chess.run_game
