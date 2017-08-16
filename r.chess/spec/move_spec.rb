@@ -78,8 +78,10 @@ RSpec.describe Move do
     context "identifies all allowed moves in the current board setup for" do
       before do
         nullize(%w(d2 e2))
-        move_piece(["b2","b4"], ["h1","e6"], ["c2","c4"], ["f2","f4"], ["a1","a4"], ["b1","a3"], ["c1","f4"], ["d1","c2"], ["f1","f2"]) #white
-        move_piece(["d7","f3"], ["f8","d3"], ["e8","d7"], ["h8","h6"], ["g8","f6"], ["d8","h4"], ["c8","b5"], ["b7","b5"], ["b8","e5"]) #black
+        move_piece(["b2","b4"], ["h1","e6"], ["c2","c4"], ["f2","f4"], ["a1","a4"]]) #white
+        move_piece(["b1","a3"], ["c1","f4"], ["d1","c2"], ["f1","f2"]) #white
+        move_piece(["d7","f3"], ["f8","d3"], ["e8","d7"], ["h8","h6"], ["g8","f6"]) #black
+        move_piece(["d8","h4"], ["c8","b5"], ["b7","b5"], ["b8","e5"]) #black
       end
 
       it "Pawn" do
