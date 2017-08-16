@@ -13,13 +13,13 @@ class Piece
 end
 
 class Pawn < Piece
-  attr_accessor :first_move_done
+  attr_accessor :first_move
   
   def initialize(color)
     super
     @unicode = color == "white" ? WHITE_PAWN : BLACK_PAWN
     @move_directions = move_directions
-    @first_move_done = nil
+    @first_move = true
   end
 
   def move_directions
@@ -32,13 +32,12 @@ class Pawn < Piece
 end
 
 class Rook < Piece
-  attr_accessor :unicode, :first_move_done
+  attr_accessor :unicode
 
   def initialize(color)
     super
     @unicode = color == "white" ? WHITE_ROOK : BLACK_ROOK
     @move_directions = ["up", "down", "left", "right"]
-    @first_move_done = false
   end
 end
 

@@ -83,7 +83,6 @@ RSpec.describe Move do
       end
 
       it "Pawn" do
-        board.graphical_display
         subject.from = "a2"
         expect(subject.possible_moves.sort).to eq([])
         subject.from = "a7"
@@ -110,6 +109,7 @@ RSpec.describe Move do
     describe "will change the position (if correct) of" do
       context "Pawn" do
         it "will move by one square" do
+        board.graphical_display
           expect(subject.board[:a2][:piece]).to be_a Pawn
           expect(subject.board[:a3][:piece]).to be_nil
           subject.from = "a2" 

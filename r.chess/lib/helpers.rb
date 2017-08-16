@@ -63,4 +63,16 @@ module Helpers
   def within_board?(add)
     ("a".."h").include?(add[0]) && add[1].to_i.between?(1,8)
   end
+
+  def existing_square?(square)
+    !square.nil?
+  end
+
+  def either_no_piece_or_opponents_color(square, player)
+    square[:piece].nil? || square[:piece].color != player.color
+  end
+
+  def causes_no_check_for_the_current_player?
+    true
+  end
 end
