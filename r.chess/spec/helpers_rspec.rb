@@ -11,7 +11,9 @@ module HelpersRSpec
   end
 
   def move_piece(*moves)
+    boardsq=board.squares
     moves.each do |move|
+      
     end
   end
 end
