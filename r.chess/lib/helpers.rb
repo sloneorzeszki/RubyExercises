@@ -11,8 +11,7 @@ module Helpers
 
   #make an offset from the original coords
   def offset(coords, name = nil, multiplier = 1)
-    x = coords[0]
-    y = coords[1]
+    x, y = coords[0], coords[1]
 
     offset = case name
     when "up_right"
@@ -33,6 +32,8 @@ module Helpers
       [-1*multiplier, 0] 
     when "up_double"
       [0, 2]
+    when "down_double"
+      [0, -2]
     when "knight_all"
       [[2,1], [1,2], [-1,2], [-2,1], [-2,1], [-1,-2], [1,-2], [2,-1]]
     else 

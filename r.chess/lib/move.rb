@@ -12,23 +12,19 @@ class Move
     @player     = player
     @board      = board
     @from       = ask_for_address("from")
-    @from_sq    = @board[@from.to_sym]
-    @from_piece = @from_sq[:piece]
     @to         = ask_for_address("to")
-    @to_sq      = @board[@to.to_sym]
-    @to_piece   = @to_sq[:piece]
     apply_the_move if within_possible_moves?
   end
 
   def ask_for_address(from_or_to)
     begin
       msg_ask_for_address(@player, from_or_to)
-      chosen_address = gets.chomp.to_s
-      raise msg_not_valid_address unless address_valid?(chosen_address, from_or_to)
+      address = gets.chomp.to_s
+      raise msg_not_valid_address unless address_valid?(address, from_or_to)
     rescue 
       retry
     end
-    chosen_address
+    address
   end
 
   def address_valid?(add, from_or_to)
@@ -38,16 +34,19 @@ class Move
   end
 
   def within_possible_moves?
-    return false if @from_piece.nil?
+    !from_piece.nil? && possible_moves.include?(to_coords(@to))
+  end
+
+  def possible_moves
     #blank hash with moves in each direction as keys
-    moves = @from_piece.move_directions.map { |dir| [dir, []] }.to_h
+    moves = from_piece.move_directions.map { |dir| [dir, []] }.to_h
     all_permitted_moves = []
 
-    if %w(Bishop Queen Rook).include?(@from_piece.class.to_s)
+    if %w(Bishop Queen Rook).include?(from_piece.class.to_s)
       keys_in_play = moves.keys
       (1..7).each do |distance|
         keys_in_play.each do |key|
-          coords = moves[key].last.nil? ? @from_sq[:coords] : moves[key].last
+          coords = moves[key].last.nil? ? from_sq[:coords] : moves[key].last
           new_move = offset(coords, key)
           moves[key] << new_move if possible_move?(to_key(new_move)) 
         end
@@ -55,23 +54,23 @@ class Move
           keys_in_play << key unless moves[key][distance-1].nil?
         end
       end
-    elsif @from_piece.instance_of?(Knight)
-      knight_moves = offset(@from_sq[:coords], moves.keys[0])
+    elsif from_piece.instance_of?(Knight)
+      knight_moves = offset(from_sq[:coords], moves.keys[0])
       knight_moves.each { |new_move| moves[moves.keys[0]] << new_move if possible_move?(new_move)}
-    elsif @from_piece.instance_of?(King)
+    elsif from_piece.instance_of?(King)
       moves.keys.each do |key|
-        new_move = offset(@from_sq[:coords], key)
+        new_move = offset(from_sq[:coords], key)
         moves[key] << new_move if possible_move?(new_move) 
       end
-    elsif @from_piece.instance_of?(Pawn)
+    elsif from_piece.instance_of?(Pawn)
       moves.keys.each do |key|
-        new_move = offset(@from_sq[:coords], key)
+        new_move = offset(from_sq[:coords], key)
         moves[key] << new_move if possible_move?(new_move, key) 
       end
     end
     
     all_permitted_moves = moves.keys.map { |key|  moves[key] }.flatten(1)
-    all_permitted_moves.include?(to_coords(@to))
+    all_permitted_moves
   end
 
   def possible_move?(coords, key=nil)
@@ -79,7 +78,7 @@ class Move
     existing_square?(square) &&
     either_no_piece_or_opponents_color(square) &&
     causes_no_check_for_the_current_player? &&
-    (@from_piece.instance_of?(Pawn) ? pawn_movement(key) : true)
+    (from_piece.instance_of?(Pawn) ? pawn_movement(key) : true)
   end
 
   def existing_square?(square)
@@ -96,18 +95,18 @@ class Move
 
   def pawn_movement(key)
     if key == "up_double" 
-     if @from_piece.color == "white"
-      if @from_sq[:coords][1] == 2 && @from_piece.first_move_done.nil?
-        @from_piece.first_move_done = true
+     if from_piece.color == "white"
+      if from_sq[:coords][1] == 2 && from_piece.first_move_done.nil?
+        from_piece.first_move_done = true
       end
-     elsif @from_piece.color == "black"
-      if @from_sq[:coords][1] == 7  && @from_piece.first_move_done.nil?
-        @from_piece.first_move_done = true
+     elsif from_piece.color == "black"
+      if from_sq[:coords][1] == 7  && from_piece.first_move_done.nil?
+        from_piece.first_move_done = true
       end
      end
     elsif (key == "up_right" || key == "up_left") 
-      if !@to_sq[:piece].nil?
-        @to_sq[:piece].color != @from_piece.color
+      if !to_sq[:piece].nil?
+        to_sq[:piece].color != from_piece.color
       end
     else
       true
@@ -115,8 +114,26 @@ class Move
   end
 
   def apply_the_move
-    @to_sq[:piece] = @from_piece
-    @from_sq[:piece] = nil
+    to_sq[:piece] = from_piece
+    from_sq[:piece] = nil
     @board
   end
+
+  private
+
+    def from_sq
+      @board[@from.to_sym]
+    end
+
+    def from_piece
+      from_sq[:piece] 
+    end
+
+    def to_sq
+      @board[@to.to_sym]
+    end
+    
+    def to_piece
+      to_sq[:piece]
+    end
 end

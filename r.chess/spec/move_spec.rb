@@ -48,15 +48,10 @@ RSpec.describe Move do
 
   describe "#possible_move?" do
     context "will return false" do
-      before do
-        nullize(%w(a2 b2 c2 d2 e2))
-        move_piece(["f2","f4"], ["a1","a4"], ["b1","a3"], ["c1","f4"], ["d1","c2"]) #white
-        move_piece(["g8","f6"], ["d8","h4"], ["c8","b5"], ["b7","b5"], ["b8","e5"]) #black
-      end
-
       it "if the square is already taken by a piece of the same color" do
-        subject.from = "a3"
-        subject.to = "c2"
+        subject.board[:d3][:piece] = Rook.new("white")
+        subject.from = "d2"
+        subject.to = "d3"
         expect(subject.possible_move?(to_coords(subject.to))).to be false
       end
 
@@ -67,21 +62,38 @@ RSpec.describe Move do
         subject.to = "i2"
       end
 
-
-      it "if there is no piece to move on @from square" do
+      it "will not make move when piece is nil" do
+        expect(subject.board[:a3][:piece]).to be_nil
+        expect(subject.board[:c2][:piece]).to be_a Pawn
+        subject.from = "a3" 
+        subject.to = "c2"
+        subject.apply_the_move if subject.within_possible_moves?
+        expect(subject.board[:a3][:piece]).to be_nil
+        expect(subject.board[:c2][:piece]).to be_a Pawn
       end
     end
   end
 
   describe "#within_possible_moves?" do
     context "identifies all allowed moves in the current setup for" do
-      before do 
-        #make moves to change the initial state on the board so that testing 
-        #possible moves for each type of piece is possible
+      before do
+        nullize(%w(d2 e2))
+        move_piece(["b2","b4"], ["c2","c4"], ["f2","f4"], ["a1","a4"], ["b1","a3"], ["c1","f4"], ["d1","c2"]) #white
+        move_piece(["d7","f3"], ["g8","f6"], ["d8","h4"], ["c8","b5"], ["b7","b5"], ["b8","e5"]) #black
       end
 
       it "Pawn" do
-        #expect(subject.within_possible_moves?(from for pawn). to eq([[3,1],[3,2]]))
+        subject.from = "a2"
+        expect(subject.possible_moves).to eq([])
+        subject.from = "g2"
+        expect(subject.possible_moves).to eq([[7,3],[7,4],[6,3]])
+        subject.from = "h2"
+        expect(subject.possible_moves).to eq([[8,3],[8,4]])
+        subject.from = "b4"
+        expect(subject.possible_moves).to eq([])
+        subject.from = "c4"
+        expect(subject.possible_moves).to eq([])
+        board.graphical_display
       end
       
       it "King" do
@@ -93,17 +105,52 @@ RSpec.describe Move do
   end
 
   describe "#make_a_move" do
-    describe "will change the position of" do
-      before do
-        allow_any_instance_of(Move).to receive(:ask_for_address).with("from") { "b1" }
-        allow_any_instance_of(Move).to receive(:ask_for_address).with("to") { "a3" }
-        allow(Move).to receive(:apply_the_move).and_return(nil)
+    describe "will change the position (if correct) of" do
+      context "Pawn" do
+        it "will move by one square" do
+          expect(subject.board[:a2][:piece]).to be_a Pawn
+          expect(subject.board[:a3][:piece]).to be_nil
+          subject.from = "a2" 
+          subject.to = "a3"
+          subject.apply_the_move if subject.within_possible_moves?
+          expect(subject.board[:a2][:piece]).to be_nil
+          expect(subject.board[:a3][:piece]).to be_a Pawn
+        end
+
+        it "will move by two squares" do
+          expect(subject.board[:f2][:piece]).to be_a Pawn
+          expect(subject.board[:f4][:piece]).to be_nil
+          subject.from = "f2" 
+          subject.to = "f4"
+          subject.apply_the_move if subject.within_possible_moves?
+          expect(subject.board[:f2][:piece]).to be_nil
+          expect(subject.board[:f4][:piece]).to be_a Pawn
+        end
+
+        it "will move diagonally both ways only if opponent's piece present on square" do
+          expect(subject.board[:c2][:piece]).to be_a Pawn
+          expect(subject.board[:d3][:piece]).to be_nil
+          subject.from = "c2" 
+          subject.to = "d3"
+          subject.apply_the_move if subject.within_possible_moves?
+          expect(subject.board[:c2][:piece]).to be_a Pawn
+          expect(subject.board[:d3][:piece]).to be_nil
+          subject.board[:d3][:piece] = Rook.new("black")
+          subject.apply_the_move if subject.within_possible_moves?
+          expect(subject.board[:c2][:piece]).to be_nil
+          expect(subject.board[:d3][:piece]).to be_a Pawn
+          subject.from = "f2" 
+          subject.to = "e3"
+          subject.board[:e3][:piece] = Rook.new("black")
+          subject.apply_the_move if subject.within_possible_moves?
+          expect(subject.board[:f2][:piece]).to be_nil
+          expect(subject.board[:e3][:piece]).to be_a Pawn
+        end
       end
 
       it "Knight" do
-        # subject.make_a_move
-        expect(subject.board[subject.from.to_sym][:piece]).to be_nil
-        expect(subject.board[subject.to.to_sym][:piece]).to be_a Knight
+        # expect(subject.board[subject.from.to_sym][:piece]).to be_nil
+        # expect(subject.board[subject.to.to_sym][:piece]).to be_a Knight
       end
 
     end

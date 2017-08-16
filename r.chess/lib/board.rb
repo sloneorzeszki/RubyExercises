@@ -49,17 +49,18 @@ class Board
 
 
   def graphical_display
-    p "  A B C D E F G H"
-    p "  ---------------"
+    p "   A B C D E F G H"
+    p "   ---------------"
     (1..8).reverse_each do |y|
-      row = "#{y}"
+      row = "#{y} "
       ("a".."h").each do |x|
         row << " #{unicode(x+y.to_s)}"
       end
+      row << "  #{y}"
       p row
     end
-    p "  ---------------"
-    p "  A B C D E F G H"
+    p "   ---------------"
+    p "   A B C D E F G H"
   end
 
   def unicode(address)

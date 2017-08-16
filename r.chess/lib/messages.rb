@@ -1,6 +1,8 @@
 module Messages
     def msg_welcome_message
-      puts "Welcome everyone!"
+      puts "Welcome! Please enter players' names."
+      print "After that, please enter address (from and to) in the following format: "
+      puts "[column_letter][row_number] e.g. a3 or f7"
     end
 
     def msg_enter_player_name(color)
@@ -16,6 +18,6 @@ module Messages
     end
 
     def msg_not_valid_address
-      puts "This is not a valid address - please enter address in the following format [column_letter][row_number] e.g. a3 or f7"
+      puts "This is not a valid address (wrong piece color/empty square/out of bord). Please select once more."
     end
 end
